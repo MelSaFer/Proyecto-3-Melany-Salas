@@ -26,11 +26,15 @@ def a_jugar():
     name_label.grid(row=0, column=1)
 
 
-
+def prueba():
+    global nivel_dificultad
+    s= nivel_dificultad.get()
+    print(s)
 '''
 Funcion para crear la ventana de configuracion
 '''
 def configuracion():
+    global nivel_dificultad
     ventana_principal.state(newstate="withdraw")
     ventana_configuracion= tk.Tk()
     ventana_configuracion.geometry("600x600")
@@ -45,14 +49,19 @@ def configuracion():
 
 
     #Radiosbutton
-    opcion_nivel= tk.IntVar()
-    facil_rb= tk.Radiobutton(ventana_configuracion, text= "Facil",font= "Corbel 12", width= 8, bg= "#F4D6CC", value=1, variable= opcion_nivel )
+    nivel_dificultad= tk.IntVar()
+    
+    
+    facil_rb= tk.Radiobutton(ventana_configuracion, text= "Facil",font= "Corbel 12", width= 8,\
+                             bg= "#F4D6CC",variable= nivel_dificultad , value=1, command= prueba)
     facil_rb.grid(row=2, column=1)
 
-    intermedio_rb= tk.Radiobutton(ventana_configuracion, text= "Intermedio",font= "Corbel 12", width= 8, bg= "#F4D6CC", value=2, variable= opcion_nivel)
+    intermedio_rb= tk.Radiobutton(ventana_configuracion, text= "Intermedio",font= "Corbel 12", width= 8,\
+                                  bg= "#F4D6CC",variable= nivel_dificultad ,value=2, command= prueba)
     intermedio_rb.grid(row=3, column=1)
 
-    dificil_rb= tk.Radiobutton(ventana_configuracion, text= "Dificil",font= "Corbel 12", width= 8, bg= "#F4D6CC", value=3, variable= opcion_nivel)
+    dificil_rb= tk.Radiobutton(ventana_configuracion, text= "Dificil",font= "Corbel 12", width= 8, \
+                               bg= "#F4D6CC",variable= nivel_dificultad , value=3, command= prueba)
     dificil_rb.grid(row=4, column=1)
 
 
@@ -96,9 +105,13 @@ def regresar(ventana):
     ventana.destroy()
 #-----------------------------Programa-Principal----------------------
 
+#Golabls
+global nivel_dificultad
+nivel_dificultad= 1
 '''
 Ventana principal
 '''
+
 ventana_principal= tk.Tk()
 ventana_principal.geometry("500x300")
 ventana_principal.title("Ventana principal")
