@@ -10,8 +10,16 @@ import tkinter as tk
 import random as ran
 import time
 import pickle
+from tkinter import messagebox
 
 #----------------------------------Funciones--------------------------
+#__________________________________________
+'''
+Entradas: Un string
+Salidas: Muestra el mensaje con un message box
+'''
+def showMensaje(mensaje):
+    messagebox.showinfo("Mensaje", mensaje)
 #__________________________________________
 '''
 Funcion para grabar datos
@@ -36,6 +44,24 @@ def lee_datos(nombre_archivo):
         try:
             lectura=pickle.load(arc)
             print(lectura)
+        except:
+            break
+    arc.close
+
+#__________________________________________
+'''
+Funcion para asina datos de un archivo
+Entradas: nombre del archivo
+Salidas: Hace print a los datos del archivo
+'''
+    
+def asigna_datos(nombre_archivo):
+    arc= open(nombre_archivo, "rb")
+    while True:
+        try:
+            lectura=pickle.load(arc)
+            #print(lectura)
+            return lectura
         except:
             break
     arc.close
@@ -75,7 +101,9 @@ def a_jugar():
     global f4c4
     global ventana_a_jugar
     global matriz_juego
-    
+    global flag1
+
+    flag1= 1
     ventana_principal.state(newstate="withdraw")
     ventana_a_jugar= tk.Tk()
     ventana_a_jugar.geometry("800x800")
@@ -175,7 +203,7 @@ def a_jugar():
     guarda_juego_b= tk.Button(ventana_a_jugar, text= "Guardar juego",font= "Corbel 12",width= 11, bg="#7A6174").place(x=290, y=400)
 
     #Boton Carga juego
-    cargar_juego_b= tk.Button(ventana_a_jugar, text= "Cargar juego",font= "Corbel 12",width= 11, bg="#7A6174").place(x=440, y=400)
+    cargar_juego_b= tk.Button(ventana_a_jugar, text= "Cargar juego",font= "Corbel 12",width= 11, bg="#7A6174", command= carga_juego).place(x=440, y=400)
 
     #Etiquetas reloj
     hora_label= tk.Label(ventana_a_jugar, text= "Hora",width= 9, font= "Corbel 12", bg="#DB504A").place(x=10, y=350)
@@ -200,7 +228,6 @@ def asigna_value(boton):
     global numero
     if boton == 1:
         numero=1
-        #pass
         #print(numero)
     elif boton == 2:
         numero=2
@@ -214,7 +241,6 @@ def asigna_value(boton):
     elif boton == 5:
         numero=5
         #print(numero)
-    #boton.config(bg="green")
     return
 #__________________________________________
 '''
@@ -253,392 +279,684 @@ def asigna_casilla(cod):
     global f4c2
     global f4c3
     global f4c4
+    global flag1
+    
 
     global matriz_juego
 
 
     global ventana_a_jugar
+    #if flag1 != 1:
+        #return
+        
+
     if cod == 0:
         for i, num in enumerate(matriz_juego[0]):
-            if numero == matriz_juego[1][0] or numero == matriz_juego[2][0] or numero == matriz_juego[3][0] or numero == matriz_juego[4][0]:
+            if isinstance(matriz_juego[0][0],str):
+                showMensaje("JUGADA NO ES VÁLIDA PORQUE ESTE ES UN DÍGITO FIJO")
+                return
+            
+            elif numero == int(matriz_juego[1][0]) or numero == int(matriz_juego[2][0]) or numero == int(matriz_juego[3][0]) or numero == int(matriz_juego[4][0]):
                 f0c0=tk.Button(ventana_a_jugar, text= numero, width= 5, height= 1, bg="#C83E4D", command=lambda:asigna_casilla(0)).grid(row=4, column=2)
+                showMensaje("El numero " + str(numero) + " ya esta en la columna")
                 break
             
-            elif num == numero and i != 0:
+            elif int(num) == numero and i != 0:
                 f0c0=tk.Button(ventana_a_jugar, text= numero, width= 5, height= 1, bg="#C83E4D", command=lambda:asigna_casilla(0)).grid(row=4, column=2)
+                showMensaje("El numero " + str(numero)+ " ya esta en la fila")
                 break
-            
+
             else:
                 f0c0=tk.Button(ventana_a_jugar, text= numero, width= 5, height= 1, bg="#F4B860", command=lambda:asigna_casilla(0)).grid(row=4, column=2)
-            matriz_juego[0][0]= numero
+        matriz_juego[0][0]= numero
         
     elif cod == 1:
         for i,num in enumerate(matriz_juego[1]):
-            if numero == matriz_juego[0][0] or numero == matriz_juego[2][0] or numero == matriz_juego[3][0] or numero == matriz_juego[4][0]:
+            if isinstance(matriz_juego[1][0],str):
+                showMensaje("JUGADA NO ES VÁLIDA PORQUE ESTE ES UN DÍGITO FIJO")
+                return
+
+            elif numero == int(matriz_juego[0][0]) or numero == int(matriz_juego[2][0]) or numero == int(matriz_juego[3][0]) or numero == int(matriz_juego[4][0]):
+                showMensaje("El numero " + str(numero) + " ya esta en la columna")
                 f0c1=tk.Button(ventana_a_jugar, text= numero, width= 5, height= 1, bg="#C83E4D", command=lambda:asigna_casilla(1)).grid(row=6, column=2)
                 break
             
-            elif num == numero and i != 0:
+            elif int(num) == numero and i != 0:
+                showMensaje("El numero " + str(numero)+ " ya esta en la fila")
                 f0c1=tk.Button(ventana_a_jugar, text= numero, width= 5, height= 1, bg="#C83E4D", command=lambda:asigna_casilla(1)).grid(row=6, column=2)
                 break
             
             else:
                 f0c1=tk.Button(ventana_a_jugar, text= numero, width= 5, height= 1, bg="#F4B860", command=lambda:asigna_casilla(1)).grid(row=6, column=2)
-            matriz_juego[1][0]= numero
+        matriz_juego[1][0]= numero
         
     elif cod == 2:
         for i,num in enumerate(matriz_juego[2]):
-            if numero == matriz_juego[0][0] or numero == matriz_juego[1][0] or numero == matriz_juego[3][0] or numero == matriz_juego[4][0]:
+            if isinstance(matriz_juego[2][0],str):
+                showMensaje("JUGADA NO ES VÁLIDA PORQUE ESTE ES UN DÍGITO FIJO")
+                return
+            
+            elif numero == int(matriz_juego[0][0]) or numero == int(matriz_juego[1][0]) or numero == int(matriz_juego[3][0]) or numero == int(matriz_juego[4][0]):
+                showMensaje("El numero " + str(numero) + " ya esta en la columna")
                 f0c2=tk.Button(ventana_a_jugar, text= numero, width= 5, height= 1, bg="#C83E4D", command=lambda:asigna_casilla(2)).grid(row=8, column=2)
                 break
             
-            elif num == numero and i != 0:
+            elif int(num) == numero and i != 0:
                 f0c2=tk.Button(ventana_a_jugar, text= numero, width= 5, height= 1, bg="#C83E4D", command=lambda:asigna_casilla(2)).grid(row=8, column=2)
+                showMensaje("El numero " + str(numero)+ " ya esta en la fila")
                 break
-            
+
             else:
                 f0c2=tk.Button(ventana_a_jugar, text= numero, width= 5, height= 1, bg="#F4B860", command=lambda:asigna_casilla(2)).grid(row=8, column=2)
-            matriz_juego[2][0]= numero
+        matriz_juego[2][0]= numero
         
     elif cod == 3:
         for i,num in enumerate(matriz_juego[3]):
-            if numero == matriz_juego[0][0] or numero == matriz_juego[1][0] or numero == matriz_juego[2][0] or numero == matriz_juego[4][0]:
+            if isinstance(matriz_juego[3][0],str):
+                showMensaje("JUGADA NO ES VÁLIDA PORQUE ESTE ES UN DÍGITO FIJO")
+                return
+            
+            elif numero == int(matriz_juego[0][0]) or numero == int(matriz_juego[1][0]) or numero == int(matriz_juego[2][0]) or numero == int(matriz_juego[4][0]):
+                showMensaje("El numero " + str(numero) + " ya esta en la columna")
                 f0c3=tk.Button(ventana_a_jugar, text= numero, width= 5, height= 1, bg="#C83E4D",command=lambda:asigna_casilla(3)).grid(row=10, column=2)
                 break
             
-            elif num == numero and i != 0:
+            elif int(num) == numero and i != 0:
                 f0c3=tk.Button(ventana_a_jugar, text= numero, width= 5, height= 1, bg="#C83E4D",command=lambda:asigna_casilla(3)).grid(row=10, column=2)
+                showMensaje("El numero " + str(numero)+ " ya esta en la fila")
                 break
             
             else:
                 f0c3=tk.Button(ventana_a_jugar, text= numero, width= 5, height= 1, bg="#F4B860",command=lambda:asigna_casilla(3)).grid(row=10, column=2)
-            matriz_juego[3][0]= numero
+        matriz_juego[3][0]= numero
         #print(matriz_juego)
     
     elif cod == 4:
         for i,num in enumerate(matriz_juego[4]):
-            if numero == matriz_juego[0][0] or numero == matriz_juego[1][0] or numero == matriz_juego[2][0] or numero == matriz_juego[3][0]:
+            if isinstance(matriz_juego[4][0],str):
+                showMensaje("JUGADA NO ES VÁLIDA PORQUE ESTE ES UN DÍGITO FIJO")
+                return
+            
+            elif numero == int(matriz_juego[0][0]) or numero == int(matriz_juego[1][0]) or numero == int(matriz_juego[2][0]) or numero == int(matriz_juego[3][0]):
+                showMensaje("El numero " + str(numero) + " ya esta en la columna")
                 f0c4=tk.Button(ventana_a_jugar, text= numero, width= 5, height= 1, bg="#C83E4D",command=lambda:asigna_casilla(4)).grid(row=12, column=2)
                 break
             
-            elif num == numero and i != 0:
+            elif int(num) == numero and i != 0:
                 f0c4=tk.Button(ventana_a_jugar, text= numero, width= 5, height= 1, bg="#C83E4D",command=lambda:asigna_casilla(4)).grid(row=12, column=2)
+                showMensaje("El numero " + str(numero)+ " ya esta en la fila")
                 break
             
             else:
                 f0c4=tk.Button(ventana_a_jugar, text= numero, width= 5, height= 1, bg="#F4B860",command=lambda:asigna_casilla(4)).grid(row=12, column=2)
-            matriz_juego[4][0]= numero
+        matriz_juego[4][0]= numero
         #print(matriz_juego)
 #_________________________________________________________________________________________________________________________________________________
         
     elif cod == 5:
         for i,num in enumerate(matriz_juego[0]):
-            if numero == matriz_juego[4][1] or numero == matriz_juego[1][1] or numero == matriz_juego[2][1] or numero == matriz_juego[3][1]:
+            if isinstance(matriz_juego[0][1],str):
+                showMensaje("JUGADA NO ES VÁLIDA PORQUE ESTE ES UN DÍGITO FIJO")
+                return
+            
+            elif numero == int(matriz_juego[4][1]) or numero == int(matriz_juego[1][1]) or numero == int(matriz_juego[2][1]) or numero == int(matriz_juego[3][1]):
+                showMensaje("El numero " + str(numero) + " ya esta en la columna")
                 f1c0=tk.Button(ventana_a_jugar, text= numero, width= 5, height= 1, bg="#C83E4D",command=lambda:asigna_casilla(5)).grid(row=4, column=4)
                 break
             
-            elif num == numero and i != 1:
+            elif int(num) == numero and i != 1:
                 f1c0=tk.Button(ventana_a_jugar, text= numero, width= 5, height= 1, bg="#C83E4D",command=lambda:asigna_casilla(5)).grid(row=4, column=4)
+                showMensaje("El numero " + str(numero)+ " ya esta en la fila")
                 break
-            
+
             else:
                 f1c0=tk.Button(ventana_a_jugar, text= numero, width= 5, height= 1, bg="#F4B860",command=lambda:asigna_casilla(5)).grid(row=4, column=4)
-            matriz_juego[0][1]= numero
+        matriz_juego[0][1]= numero
         #print(matriz_juego)
         
     elif cod == 6:
         for i,num in enumerate(matriz_juego[1]):
-            if numero == matriz_juego[0][1] or numero == matriz_juego[2][1] or numero == matriz_juego[3][1] or numero == matriz_juego[4][1]:
+            if numero == int(matriz_juego[0][1]) or numero == int(matriz_juego[2][1]) or numero == int(matriz_juego[3][1]) or numero == int(matriz_juego[4][1]):
                 f1c1=tk.Button(ventana_a_jugar, text= numero, width= 5, height= 1, bg="#C83E4D",command=lambda:asigna_casilla(6)).grid(row=6, column=4)
+                showMensaje("El numero " + str(numero) + " ya esta en la columna")
                 break
             
-            elif num == numero and i != 1:
+            elif int(num) == numero and i != 1:
                 f1c1=tk.Button(ventana_a_jugar, text= numero, width= 5, height= 1, bg="#C83E4D",command=lambda:asigna_casilla(6)).grid(row=6, column=4)
+                showMensaje("El numero " + str(numero)+ " ya esta en la fila")
+                break
+            
+            elif isinstance(matriz_juego[1][1],str):
+                showMensaje("JUGADA NO ES VÁLIDA PORQUE ESTE ES UN DÍGITO FIJO")
+                return
                 break
             
             else:
                 f1c1=tk.Button(ventana_a_jugar, text= numero, width= 5, height= 1, bg="#F4B860",command=lambda:asigna_casilla(6)).grid(row=6, column=4)
-                matriz_juego[1][1]= numero
+        matriz_juego[1][1]= numero
         #print(matriz_juego)
     
     elif cod == 7:
         for i,num in enumerate(matriz_juego[2]):
-            if numero == matriz_juego[0][1] or numero == matriz_juego[1][1] or numero == matriz_juego[3][1] or numero == matriz_juego[4][1]:
+            if isinstance(matriz_juego[2][1],str):
+                showMensaje("JUGADA NO ES VÁLIDA PORQUE ESTE ES UN DÍGITO FIJO")
+                return
+
+            elif numero == int(matriz_juego[0][1]) or numero == int(matriz_juego[1][1]) or numero == int(matriz_juego[3][1]) or numero == int(matriz_juego[4][1]):
                 f1c2=tk.Button(ventana_a_jugar, text= numero, width= 5, height= 1, bg="#C83E4D",command=lambda:asigna_casilla(7)).grid(row=8, column=4)
+                showMensaje("El numero " + str(numero) + " ya esta en la columna")
                 break
             
-            elif num == numero and i != 1:
+            elif int(num) == numero and i != 1:
                 f1c2=tk.Button(ventana_a_jugar, text= numero, width= 5, height= 1, bg="#C83E4D",command=lambda:asigna_casilla(7)).grid(row=8, column=4)
+                showMensaje("El numero " + str(numero)+ " ya esta en la fila")
                 break
-            
+
             else:
                 f1c2=tk.Button(ventana_a_jugar, text= numero, width= 5, height= 1, bg="#F4B860",command=lambda:asigna_casilla(7)).grid(row=8, column=4)
-            matriz_juego[2][1]= numero
+        matriz_juego[2][1]= numero
         #print(matriz_juego)
     
     elif cod == 8:
         for i,num in enumerate(matriz_juego[3]):
-            if numero == matriz_juego[0][1] or numero == matriz_juego[1][1] or numero == matriz_juego[2][1] or numero == matriz_juego[4][1]:
+            if isinstance(matriz_juego[3][1],str):
+                showMensaje("JUGADA NO ES VÁLIDA PORQUE ESTE ES UN DÍGITO FIJO")
+                return
+                
+            elif numero == int(matriz_juego[0][1]) or numero == int(matriz_juego[1][1]) or numero == int(matriz_juego[2][1]) or numero == int(matriz_juego[4][1]):
                 f1c3=tk.Button(ventana_a_jugar, text= numero, width= 5, height= 1, bg="#C83E4D",command=lambda:asigna_casilla(8)).grid(row=10, column=4)
+                showMensaje("El numero " + str(numero) + " ya esta en la columna")
                 break
             
-            elif num == numero and i != 1:
+            elif int(num) == numero and i != 1:
                 f1c3=tk.Button(ventana_a_jugar, text= numero, width= 5, height= 1, bg="#C83E4D",command=lambda:asigna_casilla(8)).grid(row=10, column=4)
+                showMensaje("El numero " + str(numero)+ " ya esta en la fila")
                 break
             
             else:
                 f1c3=tk.Button(ventana_a_jugar, text= numero, width= 5, height= 1, bg="#F4B860",command=lambda:asigna_casilla(8)).grid(row=10, column=4)
-            matriz_juego[3][1]= numero
+        matriz_juego[3][1]= numero
         #print(matriz_juego)
         
     elif cod == 9:
         for i,num in enumerate(matriz_juego[4]):
-            if numero == matriz_juego[0][1] or numero == matriz_juego[1][1] or numero == matriz_juego[2][1] or numero == matriz_juego[3][1]:
+            if isinstance(matriz_juego[4][1],str):
+                showMensaje("JUGADA NO ES VÁLIDA PORQUE ESTE ES UN DÍGITO FIJO")
+                return
+                
+            elif numero == int(matriz_juego[0][1]) or numero == int(matriz_juego[1][1]) or numero == int(matriz_juego[2][1]) or numero == int(matriz_juego[3][1]):
                 f1c4=tk.Button(ventana_a_jugar, text= numero, width= 5, height= 1, bg="#C83E4D",command=lambda:asigna_casilla(9)).grid(row=12, column=4)
+                showMensaje("El numero " + str(numero) + " ya esta en la columna")
                 break
             
-            elif num == numero and i != 1:
+            elif int(num) == numero and i != 1:
                 f1c4=tk.Button(ventana_a_jugar, text= numero, width= 5, height= 1, bg="#C83E4D",command=lambda:asigna_casilla(9)).grid(row=12, column=4)
+                showMensaje("El numero " + str(numero)+ " ya esta en la fila")
                 break
             
             else:
                 f1c4=tk.Button(ventana_a_jugar, text= numero, width= 5, height= 1, bg="#F4B860",command=lambda:asigna_casilla(9)).grid(row=12, column=4)
-            matriz_juego[4][1]= numero
+        matriz_juego[4][1]= numero
         #print(matriz_juego)
 #_________________________________________________________________________________________________________________________________________________
         
     elif cod == 10:
         for i,num in enumerate(matriz_juego[0]):
-            if numero == matriz_juego[1][2] or numero == matriz_juego[2][2] or numero == matriz_juego[3][2] or numero == matriz_juego[4][2]:
+            if isinstance(matriz_juego[0][2],str):
+                showMensaje("JUGADA NO ES VÁLIDA PORQUE ESTE ES UN DÍGITO FIJO")
+                return
+
+            elif numero == int(matriz_juego[1][2]) or numero == int(matriz_juego[2][2]) or numero == int(matriz_juego[3][2]) or numero == int(matriz_juego[4][2]):
                 f2c0=tk.Button(ventana_a_jugar, text= numero, width= 5, height= 1, bg="#C83E4D",command=lambda:asigna_casilla(10)).grid(row=4, column=6)
+                showMensaje("El numero " + str(numero) + " ya esta en la columna")
                 break
             
-            elif num == numero and i != 2:
+            elif int(num) == numero and i != 2:
                 f2c0=tk.Button(ventana_a_jugar, text= numero, width= 5, height= 1, bg="#C83E4D",command=lambda:asigna_casilla(10)).grid(row=4, column=6)
+                showMensaje("El numero " + str(numero)+ " ya esta en la fila")
                 break
             
             else:
                 f2c0=tk.Button(ventana_a_jugar, text= numero, width= 5, height= 1, bg="#F4B860",command=lambda:asigna_casilla(10)).grid(row=4, column=6)
-            matriz_juego[0][2]= numero
+        matriz_juego[0][2]= numero
         #print(matriz_juego)
     
     elif cod == 11:
-         for i,num in enumerate(matriz_juego[1]):
-            if numero == matriz_juego[0][2] or numero == matriz_juego[2][2] or numero == matriz_juego[3][2] or numero == matriz_juego[4][2]:
+        for i,num in enumerate(matriz_juego[1]):
+            if isinstance(matriz_juego[1][2],str):
+                showMensaje("JUGADA NO ES VÁLIDA PORQUE ESTE ES UN DÍGITO FIJO")
+                return
+                
+            elif numero == int(matriz_juego[0][2]) or numero == int(matriz_juego[2][2]) or numero == int(matriz_juego[3][2]) or numero == int(matriz_juego[4][2]):
                 f2c1=tk.Button(ventana_a_jugar, text= numero, width= 5, height= 1, bg="#C83E4D",command=lambda:asigna_casilla(11)).grid(row=6, column=6)
+                showMensaje("El numero " + str(numero) + " ya esta en la columna")
                 break
             
-            elif num == numero and i != 2:
+            elif int(num) == numero and i != 2:
                 f2c1=tk.Button(ventana_a_jugar, text= numero, width= 5, height= 1, bg="#C83E4D",command=lambda:asigna_casilla(11)).grid(row=6, column=6)
                 break
             
             else:
                 f2c1=tk.Button(ventana_a_jugar, text= numero, width= 5, height= 1, bg="#F4B860",command=lambda:asigna_casilla(11)).grid(row=6, column=6)
-                matriz_juego[1][2]= numero
+        matriz_juego[1][2]= numero
        # print(matriz_juego)
     
     elif cod == 12:
         for i,num in enumerate(matriz_juego[2]):
-            if numero == matriz_juego[0][2] or numero == matriz_juego[1][2] or numero == matriz_juego[3][2] or numero == matriz_juego[4][2]:
+            if isinstance(matriz_juego[2][2],str):
+                showMensaje("JUGADA NO ES VÁLIDA PORQUE ESTE ES UN DÍGITO FIJO")
+                return
+                
+            elif numero == int(matriz_juego[0][2]) or numero == int(matriz_juego[1][2]) or numero == int(matriz_juego[3][2]) or numero == int(matriz_juego[4][2]):
                 f2c2=tk.Button(ventana_a_jugar, text= numero, width= 5, height= 1, bg="#C83E4D",command=lambda:asigna_casilla(12)).grid(row=8, column=6)
+                showMensaje("El numero " + str(numero) + " ya esta en la columna")
                 break
             
-            elif num == numero and i != 2:
+            elif int(num) == numero and i != 2:
                 f2c2=tk.Button(ventana_a_jugar, text= numero, width= 5, height= 1, bg="#C83E4D",command=lambda:asigna_casilla(12)).grid(row=8, column=6)
+                showMensaje("El numero " + str(numero)+ " ya esta en la fila")
                 break
             
             else:
                 f2c2=tk.Button(ventana_a_jugar, text= numero, width= 5, height= 1, bg="#F4B860",command=lambda:asigna_casilla(12)).grid(row=8, column=6)
-            matriz_juego[2][2]= numero
+        matriz_juego[2][2]= numero
         #print(matriz_juego)
     
     elif cod == 13:
-         for i,num in enumerate(matriz_juego[3]):
-            if numero == matriz_juego[0][2] or numero == matriz_juego[1][2] or numero == matriz_juego[2][2] or numero == matriz_juego[4][2]:
+        for i,num in enumerate(matriz_juego[3]):
+            if isinstance(matriz_juego[3][2],str):
+                showMensaje("JUGADA NO ES VÁLIDA PORQUE ESTE ES UN DÍGITO FIJO")
+                return
+            
+            elif numero == int(matriz_juego[0][2]) or numero == int(matriz_juego[1][2]) or numero == int(matriz_juego[2][2]) or numero == int(matriz_juego[4][2]):
                 f2c3=tk.Button(ventana_a_jugar, text= numero, width= 5, height= 1, bg="#C83E4D",command=lambda:asigna_casilla(13)).grid(row=10, column=6)
+                showMensaje("El numero " + str(numero) + " ya esta en la columna")
                 break
             
-            elif num == numero and i != 2:
+            elif int(num) == numero and i != 2:
                 f2c3=tk.Button(ventana_a_jugar, text= numero, width= 5, height= 1, bg="#C83E4D",command=lambda:asigna_casilla(13)).grid(row=10, column=6)
+                showMensaje("El numero " + str(numero)+ " ya esta en la fila")
                 break
             
             else:
                 f2c3=tk.Button(ventana_a_jugar, text= numero, width= 5, height= 1, bg="#F4B860",command=lambda:asigna_casilla(13)).grid(row=10, column=6)
-            matriz_juego[3][2]= numero
+        matriz_juego[3][2]= numero
         #print(matriz_juego)
     
     elif cod == 14:
         for i,num in enumerate(matriz_juego[4]):
-            if numero == matriz_juego[0][2] or numero == matriz_juego[1][2] or numero == matriz_juego[2][2] or numero == matriz_juego[3][2]:
+            if isinstance(matriz_juego[4][2],str):
+                showMensaje("JUGADA NO ES VÁLIDA PORQUE ESTE ES UN DÍGITO FIJO")
+                return
+            
+            elif numero == int(matriz_juego[0][2]) or numero == int(matriz_juego[1][2]) or numero == int(matriz_juego[2][2]) or numero == int(matriz_juego[3][2]):
                 f2c4=tk.Button(ventana_a_jugar, text= numero, width= 5, height= 1, bg="#C83E4D",command=lambda:asigna_casilla(14)).grid(row=12, column=6)
+                showMensaje("El numero " + str(numero) + " ya esta en la columna")
                 break
             
-            elif num == numero and i != 2:
+            elif int(num) == numero and i != 2:
                 f2c4=tk.Button(ventana_a_jugar, text= numero, width= 5, height= 1, bg="#C83E4D",command=lambda:asigna_casilla(14)).grid(row=12, column=6)
+                showMensaje("El numero " + str(numero)+ " ya esta en la fila")
                 break
             
             else:
                 f2c4=tk.Button(ventana_a_jugar, text= numero, width= 5, height= 1, bg="#F4B860",command=lambda:asigna_casilla(14)).grid(row=12, column=6)
-            matriz_juego[4][2]= numero
-       # print(matriz_juego)
+        matriz_juego[4][2]= numero
+        print(matriz_juego)
 #_________________________________________________________________________________________________________________________________________________
 
     elif cod == 15:
         for i,num in enumerate(matriz_juego[0]):
-            if numero == matriz_juego[1][3] or numero == matriz_juego[2][3] or numero == matriz_juego[3][3] or numero == matriz_juego[4][3]:
+            if isinstance(matriz_juego[0][3],str):
+                showMensaje("JUGADA NO ES VÁLIDA PORQUE ESTE ES UN DÍGITO FIJO")
+                return 
+                
+            elif numero == int(matriz_juego[1][3]) or numero == int(matriz_juego[2][3]) or numero == int(matriz_juego[3][3]) or numero == int(matriz_juego[4][3]):
                 f3c0=tk.Button(ventana_a_jugar, text= numero, width= 5, height= 1, bg="#C83E4D",command=lambda:asigna_casilla(15)).grid(row=4, column=8)
+                showMensaje("El numero " + str(numero) + " ya esta en la columna")
                 break
             
-            elif num == numero and i != 3:
+            elif int(num) == numero and i != 3:
                 f3c0=tk.Button(ventana_a_jugar, text= numero, width= 5, height= 1, bg="#C83E4D",command=lambda:asigna_casilla(15)).grid(row=4, column=8)
+                showMensaje("El numero " + str(numero)+ " ya esta en la fila")
                 break
             
             else:
                 f3c0=tk.Button(ventana_a_jugar, text= numero, width= 5, height= 1, bg="#F4B860",command=lambda:asigna_casilla(15)).grid(row=4, column=8)
-            matriz_juego[0][3]= numero
+        matriz_juego[0][3]= numero
         #print(matriz_juego)
         
     elif cod == 16:
         for i,num in enumerate(matriz_juego[1]):
-            if numero == matriz_juego[0][3] or numero == matriz_juego[2][3] or numero == matriz_juego[3][3] or numero == matriz_juego[4][3]:
+            if isinstance(matriz_juego[1][3],str):
+                showMensaje("JUGADA NO ES VÁLIDA PORQUE ESTE ES UN DÍGITO FIJO")
+                return
+            
+            elif numero == int(matriz_juego[0][3]) or numero == int(matriz_juego[2][3]) or numero == int(matriz_juego[3][3]) or numero == int(matriz_juego[4][3]):
                 f3c1=tk.Button(ventana_a_jugar, text= numero, width= 5, height= 1, bg="#C83E4D",command=lambda:asigna_casilla(16)).grid(row=6, column=8)
+                showMensaje("El numero " + str(numero) + " ya esta en la columna")
                 break
             
-            elif num == numero and i != 3:
+            elif int(num) == numero and i != 3:
                 f3c1=tk.Button(ventana_a_jugar, text= numero, width= 5, height= 1, bg="#C83E4D",command=lambda:asigna_casilla(16)).grid(row=6, column=8)
+                showMensaje("El numero " + str(numero)+ " ya esta en la fila")
                 break
             
             else:
                 f3c1=tk.Button(ventana_a_jugar, text= numero, width= 5, height= 1, bg="#F4B860",command=lambda:asigna_casilla(16)).grid(row=6, column=8)
-            matriz_juego[1][3]= numero
+        matriz_juego[1][3]= numero
         #print(matriz_juego)
     
     elif cod == 17:
         for i,num in enumerate(matriz_juego[2]):
-            if numero == matriz_juego[0][3] or numero == matriz_juego[1][3] or numero == matriz_juego[3][3] or numero == matriz_juego[4][3]:
+            if isinstance(matriz_juego[2][3],str):
+                showMensaje("JUGADA NO ES VÁLIDA PORQUE ESTE ES UN DÍGITO FIJO")
+                return
+                
+            elif numero == int(matriz_juego[0][3]) or numero == int(matriz_juego[1][3]) or numero == int(matriz_juego[3][3]) or numero == int(matriz_juego[4][3]):
                 f3c2=tk.Button(ventana_a_jugar, text= numero, width= 5, height= 1, bg="#C83E4D",command=lambda:asigna_casilla(17)).grid(row=8, column=8)
+                showMensaje("El numero " + str(numero) + " ya esta en la columna")
                 break
             
-            elif num == numero and i != 3:
+            elif int(num) == numero and i != 3:
                 f3c2=tk.Button(ventana_a_jugar, text= numero, width= 5, height= 1, bg="#C83E4D",command=lambda:asigna_casilla(17)).grid(row=8, column=8)
+                showMensaje("El numero " + str(numero)+ " ya esta en la fila")
                 break
             
             else:
                 f3c2=tk.Button(ventana_a_jugar, text= numero, width= 5, height= 1, bg="#F4B860",command=lambda:asigna_casilla(17)).grid(row=8, column=8)
-            matriz_juego[2][3]= numero
+        matriz_juego[2][3]= numero
         #print(matriz_juego)
     
     elif cod == 18:
         for i,num in enumerate(matriz_juego[3]):
-            if numero == matriz_juego[0][3] or numero == matriz_juego[1][3] or numero == matriz_juego[2][3] or numero == matriz_juego[4][3]:
+            if isinstance(matriz_juego[2][4],str):
+                showMensaje("JUGADA NO ES VÁLIDA PORQUE ESTE ES UN DÍGITO FIJO")
+                return
+            
+            elif numero == int(matriz_juego[0][3]) or numero == int(matriz_juego[1][3]) or numero == int(matriz_juego[2][3]) or numero == int(matriz_juego[4][3]):
                 f3c3=tk.Button(ventana_a_jugar, text= numero, width= 5, height= 1, bg="#C83E4D",command=lambda:asigna_casilla(18)).grid(row=10, column=8)
+                showMensaje("El numero " + str(numero) + " ya esta en la columna")
                 break
             
-            elif num == numero and i != 3:
+            elif int(num) == numero and i != 3:
                 f3c3=tk.Button(ventana_a_jugar, text= numero, width= 5, height= 1, bg="#C83E4D",command=lambda:asigna_casilla(18)).grid(row=10, column=8)
+                showMensaje("El numero " + str(numero)+ " ya esta en la fila")
                 break
             
             else:
                 f3c3=tk.Button(ventana_a_jugar, text= numero, width= 5, height= 1, bg="#F4B860",command=lambda:asigna_casilla(18)).grid(row=10, column=8)
-            matriz_juego[3][3]= numero
+        matriz_juego[3][3]= numero
         #print(matriz_juego)
     
     elif cod == 19:
         for i,num in enumerate(matriz_juego[4]):
-            if numero == matriz_juego[0][3] or numero == matriz_juego[1][3] or numero == matriz_juego[2][3] or numero == matriz_juego[3][3]:
+            if isinstance(matriz_juego[4][3],str):
+                showMensaje("JUGADA NO ES VÁLIDA PORQUE ESTE ES UN DÍGITO FIJO")
+                return
+            
+            elif numero == int(matriz_juego[0][3]) or numero == int(matriz_juego[1][3]) or numero == int(matriz_juego[2][3]) or numero == int(matriz_juego[3][3]):
                 f3c4=tk.Button(ventana_a_jugar, text= numero, width= 5, height= 1, bg="#C83E4D",command=lambda:asigna_casilla(19)).grid(row=12, column=8)
+                showMensaje("El numero " + str(numero) + " ya esta en la columna")
                 break
             
-            elif num == numero and i != 3:
+            elif int(num) == numero and i != 3:
                 f3c4=tk.Button(ventana_a_jugar, text= numero, width= 5, height= 1, bg="#C83E4D",command=lambda:asigna_casilla(19)).grid(row=12, column=8)
+                showMensaje("El numero " + str(numero)+ " ya esta en la fila")
                 break
             
             else:
                 f3c4=tk.Button(ventana_a_jugar, text= numero, width= 5, height= 1, bg="#F4B860",command=lambda:asigna_casilla(19)).grid(row=12, column=8)
-            matriz_juego[4][3]= numero
+        matriz_juego[4][3]= numero
        # print(matriz_juego)
 #________________________________________________________________________________________________________________________________________________
         
     elif cod == 20:
         for i,num in enumerate(matriz_juego[0]):
-            if numero == matriz_juego[1][4] or numero == matriz_juego[2][4] or numero == matriz_juego[3][4] or numero == matriz_juego[4][4]:
+            if isinstance(matriz_juego[0][4],str):
+                showMensaje("JUGADA NO ES VÁLIDA PORQUE ESTE ES UN DÍGITO FIJO")
+                return
+                
+            elif numero == int(matriz_juego[1][4]) or numero == int(matriz_juego[2][4]) or numero == int(matriz_juego[3][4]) or numero == int(matriz_juego[4][4]):
                 f4c0=tk.Button(ventana_a_jugar, text= numero, width= 5, height= 1, bg="#C83E4D",command=lambda:asigna_casilla(20)).grid(row=4, column=10)
+                showMensaje("El numero " + str(numero) + " ya esta en la columna")
                 break
             
-            elif num == numero and i != 4:
+            elif int(num) == numero and i != 4:
                 f4c0=tk.Button(ventana_a_jugar, text= numero, width= 5, height= 1, bg="#C83E4D",command=lambda:asigna_casilla(20)).grid(row=4, column=10)
+                showMensaje("El numero " + str(numero)+ " ya esta en la fila")
                 break
             
             else:
                 f4c0=tk.Button(ventana_a_jugar, text= numero, width= 5, height= 1, bg="#F4B860",command=lambda:asigna_casilla(20)).grid(row=4, column=10)
-            matriz_juego[0][4]= numero
+        matriz_juego[0][4]= numero
         #print(matriz_juego)
     
     elif cod == 21:
         for i,num in enumerate(matriz_juego[1]):
-            if numero == matriz_juego[0][4] or numero == matriz_juego[2][4] or numero == matriz_juego[3][4] or numero == matriz_juego[4][4]:
+            if isinstance(matriz_juego[1][4],str):
+                showMensaje("JUGADA NO ES VÁLIDA PORQUE ESTE ES UN DÍGITO FIJO")
+                return
+
+            elif numero == int(matriz_juego[0][4]) or numero == int(matriz_juego[2][4]) or numero == int(matriz_juego[3][4]) or numero == int(matriz_juego[4][4]):
                 f4c1=tk.Button(ventana_a_jugar, text= numero, width= 5, height= 1, bg="#C83E4D",command=lambda:asigna_casilla(21)).grid(row=6, column=10)
+                showMensaje("El numero " + str(numero) + " ya esta en la columna")
                 break
             
-            elif num == numero and i != 4:
+            elif int(num) == numero and i != 4:
                 f4c1=tk.Button(ventana_a_jugar, text= numero, width= 5, height= 1, bg="#C83E4D",command=lambda:asigna_casilla(21)).grid(row=6, column=10)
+                showMensaje("El numero " + str(numero)+ " ya esta en la fila")
                 break
             
             else:
                 f4c1=tk.Button(ventana_a_jugar, text= numero, width= 5, height= 1, bg="#F4B860",command=lambda:asigna_casilla(21)).grid(row=6, column=10)
-            matriz_juego[1][4]= numero
+        matriz_juego[1][4]= numero
                 #print(matriz_juego)
     
     elif cod == 22:
         for i,num in enumerate(matriz_juego[2]):
-            if numero == matriz_juego[0][4] or numero == matriz_juego[1][4] or numero == matriz_juego[2][4] or numero == matriz_juego[4][4]:
+            if isinstance(matriz_juego[2][4],str):
+                showMensaje("JUGADA NO ES VÁLIDA PORQUE ESTE ES UN DÍGITO FIJO")
+                return
+                
+            elif numero == int(matriz_juego[0][4]) or int(numero == matriz_juego[1][4]) or numero == int(matriz_juego[2][4]) or numero == int(matriz_juego[4][4]):
                 f4c2=tk.Button(ventana_a_jugar, text= numero, width= 5, height= 1, bg="#C83E4D",command=lambda:asigna_casilla(22)).grid(row=8, column=10)
+                showMensaje("El numero " + str(numero) + " ya esta en la columna")
                 break
             
-            elif num == numero and i != 4:
+            elif int(num) == numero and i != 4:
                 f4c2=tk.Button(ventana_a_jugar, text= numero, width= 5, height= 1, bg="#C83E4D",command=lambda:asigna_casilla(22)).grid(row=8, column=10)
+                showMensaje("El numero " + str(numero)+ " ya esta en la fila")
                 break
             
             else:
                 f4c2=tk.Button(ventana_a_jugar, text= numero, width= 5, height= 1, bg="#F4B860",command=lambda:asigna_casilla(22)).grid(row=8, column=10)
-            matriz_juego[2][4]= numero
+        matriz_juego[2][4]= numero
         #print(matriz_juego)
     
     elif cod == 23:
         for i,num in enumerate(matriz_juego[3]):
-            if numero == matriz_juego[0][4] or numero == matriz_juego[1][4] or numero == matriz_juego[2][4] or numero == matriz_juego[4][4]:
+            if isinstance(matriz_juego[3][4],str):
+                showMensaje("JUGADA NO ES VÁLIDA PORQUE ESTE ES UN DÍGITO FIJO")
+                return
+                
+            elif numero == int(matriz_juego[0][4]) or numero == int(matriz_juego[1][4]) or numero == int(matriz_juego[2][4]) or numero == int(matriz_juego[4][4]):
                 f4c3=tk.Button(ventana_a_jugar, text= numero, width= 5, height= 1, bg="#C83E4D",command=lambda:asigna_casilla(23)).grid(row=10, column=10)
+                showMensaje("El numero " + str(numero) + " ya esta en la columna")
                 break
             
-            elif num == numero and i != 4:
+            elif int(num) == numero and i != 4:
                 f4c3=tk.Button(ventana_a_jugar, text= numero, width= 5, height= 1, bg="#C83E4D",command=lambda:asigna_casilla(23)).grid(row=10, column=10)
+                showMensaje("El numero " + str(numero)+ " ya esta en la fila")
                 break
             
             else:
                 f4c3=tk.Button(ventana_a_jugar, text= numero, width= 5, height= 1, bg="#F4B860",command=lambda:asigna_casilla(23)).grid(row=10, column=10)
-            matriz_juego[3][4]= numero
+        matriz_juego[3][4]= numero
         #print(matriz_juego)
    
     elif cod == 24:
         for i,num in enumerate(matriz_juego[4]):
-            if numero == matriz_juego[0][4] or numero == matriz_juego[1][4] or numero == matriz_juego[2][4] or numero == matriz_juego[3][4]:
+            if isinstance(matriz_juego[4][4],str):
+                showMensaje("JUGADA NO ES VÁLIDA PORQUE ESTE ES UN DÍGITO FIJO")
+                return
+                
+            elif numero == int(matriz_juego[0][4]) or numero == int(matriz_juego[1][4]) or numero == int(matriz_juego[2][4]) or numero == int(matriz_juego[3][4]):
                 f4c4=tk.Button(ventana_a_jugar, text= numero, width= 5, height= 1, bg="#C83E4D",command=lambda:asigna_casilla(24)).grid(row=12, column=10)
                 break
             
-            elif num == numero and i != 4:
+            elif int(num) == numero and i != 4:
                 f4c4=tk.Button(ventana_a_jugar, text= numero, width= 5, height= 1, bg="#C83E4D",command=lambda:asigna_casilla(24)).grid(row=12, column=10)
+                showMensaje("El numero " + str(numero)+ " ya esta en la fila")
                 break
             
             else:
                 f4c4=tk.Button(ventana_a_jugar, text= numero, width= 5, height= 1, bg="#F4B860",command=lambda:asigna_casilla(24)).grid(row=12, column=10)
-            matriz_juego[4][4]= numero
-        #print(matriz_juego)
+        matriz_juego[4][4]= numero
+        print(matriz_juego)
+    flag1=0
+    return flag1
 
     
 def prueba():
     global nivel_dificultad
     s= nivel_dificultad.get()
     print(s)
+    
+def escoge_partida():
+    num= ran.randint(0,2)
+    return num
+
+def carga_juego():
+    global arc_jugadas
+    global matriz_juego
+    global numero
+    global f0c0
+    global f0c1
+    global f0c2
+    global f0c3
+    global f0c4
+    
+    global f1c0
+    global f1c1
+    global f1c2
+    global f1c3
+    global f1c4
+    
+    global f2c0
+    global f2c1
+    global f2c2
+    global f2c3
+    global f2c4
+    
+    global f3c0
+    global f3c1
+    global f3c2
+    global f3c3
+    global f3c4
+    
+    global f4c0
+    global f4c1
+    global f4c2
+    global f4c3
+    global f4c4
+    
+    num=escoge_partida()
+    partida=arc_jugadas[num]
+    crea_matriz()
+
+    for validacion in partida:
+        if validacion[0] not in "1 2 3 4 5":
+            pass
+        else:
+            matriz_juego[validacion[1]][validacion[2]]=str(validacion[0])
+            #print("indices:", validacion[1],validacion[2], validacion)
+    print(matriz_juego)
+
+    if matriz_juego[0][0] !=0:
+        f0c0=tk.Button(ventana_a_jugar, text= matriz_juego[0][0], width= 5, height= 1, bg="#F4B860", command=lambda:asigna_casilla(0)).grid(row=4, column=2)
+
+    if matriz_juego[1][0] !=0:
+        f0c1=tk.Button(ventana_a_jugar, text= matriz_juego[1][0], width= 5, height= 1, bg="#F4B860", command=lambda:asigna_casilla(1)).grid(row=6, column=2)
+
+    if matriz_juego[2][0] !=0:
+        f0c2=tk.Button(ventana_a_jugar, text= matriz_juego[2][0], width= 5, height= 1, bg="#F4B860", command=lambda:asigna_casilla(2)).grid(row=8, column=2)
+
+    if matriz_juego[3][0] !=0:
+        f0c3=tk.Button(ventana_a_jugar, text= matriz_juego[3][0], width= 5, height= 1, bg="#F4B860",command=lambda:asigna_casilla(3)).grid(row=10, column=2)
+        
+    if matriz_juego[4][0] !=0:
+        f0c4=tk.Button(ventana_a_jugar, text= matriz_juego[4][0], width= 5, height= 1, bg="#F4B860",command=lambda:asigna_casilla(4)).grid(row=12, column=2)
+    #1_______________________________________________________________________________________________________________________________________________________
+                
+    if matriz_juego[0][1] !=0:
+        f1c0=tk.Button(ventana_a_jugar, text= matriz_juego[0][1], width= 5, height= 1, bg="#F4B860",command=lambda:asigna_casilla(5)).grid(row=4, column=4)
+
+    if matriz_juego[1][1] !=0:
+        f1c1=tk.Button(ventana_a_jugar, text= matriz_juego[1][1], width= 5, height= 1, bg="#F4B860",command=lambda:asigna_casilla(6)).grid(row=6, column=4)
+
+    if matriz_juego[2][1] !=0:
+        f1c2=tk.Button(ventana_a_jugar, text= matriz_juego[2][1], width= 5, height= 1, bg="#F4B860",command=lambda:asigna_casilla(7)).grid(row=8, column=4)
+
+    if matriz_juego[3][1] !=0:
+        f1c3=tk.Button(ventana_a_jugar, text= matriz_juego[3][1], width= 5, height= 1, bg="#F4B860",command=lambda:asigna_casilla(8)).grid(row=10, column=4)
+
+    if matriz_juego[4][1] !=0:
+        f1c4=tk.Button(ventana_a_jugar, text= matriz_juego[4][1], width= 5, height= 1, bg="#F4B860",command=lambda:asigna_casilla(9)).grid(row=12, column=4)
+    #1_______________________________________________________________________________________________________________________________________________________
+                
+    if matriz_juego[0][2] !=0:
+        f2c0=tk.Button(ventana_a_jugar, text= matriz_juego[0][2], width= 5, height= 1, bg="#F4B860",command=lambda:asigna_casilla(10)).grid(row=4, column=6)
+
+    if matriz_juego[1][2] !=0:
+        f2c1=tk.Button(ventana_a_jugar, text= matriz_juego[1][2], width= 5, height= 1, bg="#F4B860",command=lambda:asigna_casilla(11)).grid(row=6, column=6)
+
+    if matriz_juego[2][2] !=0:
+        f2c2=tk.Button(ventana_a_jugar, text= matriz_juego[2][2], width= 5, height= 1, bg="#F4B860",command=lambda:asigna_casilla(12)).grid(row=8, column=6)
+
+    if matriz_juego[3][2] !=0:
+        f2c3=tk.Button(ventana_a_jugar, text= matriz_juego[3][2], width= 5, height= 1, bg="#F4B860",command=lambda:asigna_casilla(13)).grid(row=10, column=6)
+
+    if matriz_juego[4][2] !=0:
+        f2c4=tk.Button(ventana_a_jugar, text= matriz_juego[4][2], width= 5, height= 1, bg="#F4B860",command=lambda:asigna_casilla(14)).grid(row=12, column=6)
+    #3_______________________________________________________________________________________________________________________________________________________
+                
+    if matriz_juego[0][3] !=0:
+        f3c0=tk.Button(ventana_a_jugar, text= matriz_juego[0][3], width= 5, height= 1, bg="#F4B860",command=lambda:asigna_casilla(15)).grid(row=4, column=8)
+
+    if matriz_juego[1][3] !=0:
+        f3c1=tk.Button(ventana_a_jugar, text=matriz_juego[1][3], width= 5, height= 1, bg="#F4B860",command=lambda:asigna_casilla(16)).grid(row=6, column=8)
+
+    if matriz_juego[2][3] !=0:
+        f3c2=tk.Button(ventana_a_jugar, text= matriz_juego[2][3],width= 5, height= 1, bg="#F4B860",command=lambda:asigna_casilla(17)).grid(row=8, column=8)
+        #print(matriz_juego[2][3], numero)
+
+    if matriz_juego[3][3] !=0:
+        f3c3=tk.Button(ventana_a_jugar, text= matriz_juego[3][3], width= 5, height= 1, bg="#F4B860",command=lambda:asigna_casilla(18)).grid(row=10, column=8)
+
+    if matriz_juego[4][3] !=0:
+        f3c4=tk.Button(ventana_a_jugar, text= matriz_juego[4][3], width= 5, height= 1, bg="#F4B860",command=lambda:asigna_casilla(19)).grid(row=12, column=8)
+    #4_______________________________________________________________________________________________________________________________________________________
+                
+    if matriz_juego[0][4] !=0:
+        f4c0=tk.Button(ventana_a_jugar, text= matriz_juego[0][4], width= 5, height= 1, bg="#F4B860",command=lambda:asigna_casilla(20)).grid(row=4, column=10)
+
+    if matriz_juego[1][4] !=0:
+        f4c1=tk.Button(ventana_a_jugar, text=matriz_juego[1][4], width= 5, height= 1, bg="#F4B860",command=lambda:asigna_casilla(21)).grid(row=6, column=10)
+
+    if matriz_juego[2][4] !=0:
+        f4c2=tk.Button(ventana_a_jugar, text= matriz_juego[2][4], width= 5, height= 1, bg="#F4B860",command=lambda:asigna_casilla(22)).grid(row=8, column=10)
+
+    if matriz_juego[3][4] !=0:
+        f4c3=tk.Button(ventana_a_jugar, text= matriz_juego[3][4], width= 5, height= 1, bg="#F4B860",command=lambda:asigna_casilla(23)).grid(row=10, column=10)
+
+    if matriz_juego[4][4] !=0:
+        f4c4=tk.Button(ventana_a_jugar, text= matriz_juego[4][4], width= 5, height= 1, bg="#F4B860",command=lambda:asigna_casilla(24)).grid(row=12, column=10)
+    
+    return partida
+
+    
+
 #___________________________________________________________VENTANA_CONFIGURACION________________________________________________________________________
 '''
 Funcion para crear la ventana de configuracion
@@ -716,7 +1034,7 @@ def regresar(ventana):
 #Funcion que crea la matriz con listas en 0
 def crea_matriz():
     global matriz_juego
-    
+    matriz_juego=[]
     cont_l=0
     #cont0=0
     while cont_l < 5:
@@ -732,11 +1050,15 @@ global nivel_dificultad
 global numero
 global lado_num
 global matriz_juego
+global arc_jugadas
 matriz_juego=[]
 lado_num= 0
 nivel_dificultad= 3
 numero=0
 crea_matriz()
+
+arc_jugadas=asigna_datos("futoshiki2021partidas.dat")
+#print(arc_jugadas)
 '''
 Ventana principal
 '''
@@ -745,7 +1067,6 @@ ventana_principal= tk.Tk()
 ventana_principal.geometry("500x300")
 ventana_principal.title("Ventana principal")
 ventana_principal.config(bg="#F4D6CC")
-
 
 #Labels
 name_label= tk.Label(ventana_principal, text= "FUTOSHIKI", font= "Corbel 22 bold", height= 1, width= 15, bg= "#C83E4D")
