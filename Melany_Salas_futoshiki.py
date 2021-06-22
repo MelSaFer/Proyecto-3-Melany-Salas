@@ -85,6 +85,10 @@ def a_jugar():
     global reloj_o_time
     global hora_inicio
 
+    global min_timer
+    global hora_timer
+    global seg_timer
+
     flag1= 1
     ventana_principal.state(newstate="withdraw")
     ventana_a_jugar= tk.Tk()
@@ -213,7 +217,7 @@ def a_jugar():
     #Botones
     #Boton Incia Juego
     inicia_juego_b= tk.Button(ventana_a_jugar, text= "Iniciar juego",font= "Corbel 12",width= 11, bg="#DB504A", command= lambda:carga_juego(nombre_jugador1.get())).place(x=20, y=400)
-#botona= tk.Button(ventana_entrada_v, text= "Aceptar", command= lambda: agrega_placa(fecha_hora_entrada, placa.get(),primer_esp, ventana_entrada_v))
+    #botona= tk.Button(ventana_entrada_v, text= "Aceptar", command= lambda: agrega_placa(fecha_hora_entrada, placa.get(),primer_esp, ventana_entrada_v))
 
     #Boton Borrar jugada
     borra_jugada_b= tk.Button(ventana_a_jugar, text= "Borrar jugada",font= "Corbel 12",width= 11, bg="#658E9C", command= desapila).place(x=150, y=400)
@@ -240,12 +244,22 @@ def a_jugar():
         min_actual= tk.Label(ventana_a_jugar, text= "0",width= 9,height= 2,font= "Corbel 12", bg="#F4C796").place(x=95, y=475)
         seg_actual= tk.Label(ventana_a_jugar, text= "0",width= 9,height= 2,font= "Corbel 12", bg="#F4C796")
         seg_actual.place(x=180, y=475)
-        #seg_actual.after(1000, lambda:funcion_time())
         
-    
+        if reloj_o_time == 3:
+            ventana_pr=tk.Toplevel()
+            ventana_pr.geometry("350x100")
+            ventana_pr.title("FUTOSHIKI- Tiempo del cronometro")
+            ventana_pr.config(bg="#F4D6CC")
+            
+            nombre= tk.Label(ventana_pr, text= "¿Desea cambien el tiempo del cronometro?", font= "Corbel 12 bold ", bg="#F4CFB1")
+            nombre.place(x=5, y=5)
 
+            regresar_b= tk.Button(ventana_pr, text= "No",font= "Corbel 12", bg="#F4CFB1", command= lambda:regresar_pr(ventana_pr,0))
+            regresar_b.place(x=45, y=50)
 
-    
+            regresar_b= tk.Button(ventana_pr, text= "Sí",font= "Corbel 12", bg="#F4CFB1", command= lambda:regresar_pr(ventana_pr,1))
+            regresar_b.place(x=85, y=50)
+            
     #Regresar
     regresar_b= tk.Button(ventana_a_jugar, text= "X",font= "Corbel 12 bold", bg="#6D8A96", command= lambda:regresar(ventana_a_jugar)).grid(row=0, column=25)
 #__________________________________________
@@ -258,19 +272,19 @@ def asigna_value(boton):
     global numero
     if boton == 1:
         numero=1
-        #print(numero)
+        
     elif boton == 2:
         numero=2
-        #print(numero)
+       
     elif boton == 3:
         numero=3
-        #print(numero)
+
     elif boton == 4:
         numero=4
-        #print(numero)
+        
     elif boton == 5:
         numero=5
-        #print(numero)
+        
     return
 #__________________________________________
 '''
@@ -1394,58 +1408,16 @@ def asigna_casilla(cod):
         if gane() == True:
             showMensaje("Ganó")
 
-def guarda_juego():
-    global matriz_juego
-    global partida
-    global nivel_dificultad
-    global reloj_o_time
-    global lado_num
-    global num
-
-    #juego_guardado= {m_juego:matriz_juego,par:partida, niv_dificultad: nivel_dificultad,reloj: reloj_o_time, l_num: lado_num}
-    juego_guardado= [matriz_juego,num ,nivel_dificultad, reloj_o_time, lado_num]
-    
-
-    arc= open("futoshiki2021juegoactual.dat" , "wb")
-    pickle.dump(juego_guardado, arc)
-    arc.close
-    showMensaje("Ha sido guardado con exito")
-
-def carga_partida():
-    global matriz_juego
-    global partida
-    global nivel_dificultad
-    global reloj_o_time
-    global lado_num
-    global num
-
-    arc= open("futoshiki2021juegoactual.dat", "rb")
-
-    try:
-        ventana_a_jugar.destroy()
-        juego_guardado=pickle.load(arc)
-        arc.close
-
-        matriz_juego= juego_guardado[0]
-        num= juego_guardado[1]
-        nivel_dificultad=juego_guardado[2]
-        reloj_o_time=juego_guardado[3]
-        lado_num=juego_guardado[4]
-        #print(matriz_juego, num, nivel_dificultad, reloj_o_time, lado_num)
-        a_jugar()
-        carga_juego()
-        #print(matriz_juego, num, nivel_dificultad, reloj_o_time, lado_num)
-        return matriz_juego, num, nivel_dificultad, reloj_o_time, lado_num
-    except:
+def regresar_pr(ventana, cod):
+    ventana.destroy()
+    if cod==0:
         pass
-   
- 
-def escoge_partida():
-    global num
-    num= ran.randint(0,2)
-    return num
+    else:
+        cambio_valor_cr()
+        
 
 def carga_juego(nombre_jugador):
+    global flag_cargar_juego
     global arc_jugadas
     global matriz_juego
     global numero
@@ -1454,20 +1426,31 @@ def carga_juego(nombre_jugador):
     global hora_inicio
     global reloj_o_time
     global nombre_j
-    nombre_jugador=str(nombre_jugador)
-    largo = len(nombre_jugador)
-    num=escoge_partida()
+    global flag_cargar_juego
+    global lista_pila
+
+    global min_timer
+    global hora_timer
+    global seg_timer
+
+    lista_pila= []
+
+    if flag_cargar_juego == False:
+        nombre_jugador=str(nombre_jugador)
+        largo = len(nombre_jugador)
+        num=escoge_partida()
+        
+        if len(nombre_jugador) < 1 or len(nombre_jugador) > 20:
+            showMensaje("Nombre no es valido")
+            return
+        
+        nombre_j=nombre_jugador
+        
+        partida=arc_jugadas[num]
+        crea_matriz()
+        hora_inicio= obtener_hora()
+        print(hora_inicio)
     
-    if len(nombre_jugador) < 1 or len(nombre_jugador) > 20:
-        showMensaje("Nombre no es valido")
-        return
-    
-    nombre_j=nombre_jugador
-    
-    partida=arc_jugadas[num]
-    crea_matriz()
-    obtener_hora()
-    #print(hora_inicio)
     if reloj_o_time == 1:
         seg_actual.after(1000, lambda:funcion_time())
     elif reloj_o_time == 3:
@@ -1726,6 +1709,7 @@ def configuracion():
     global nivel_dificultad
     global reloj_o_time
     global lado_num
+    
     ventana_principal.state(newstate="withdraw")
     ventana_configuracion= tk.Tk()
     ventana_configuracion.geometry("600x600")
@@ -1860,6 +1844,7 @@ def timer_reloj():
     global min_timer
     global hora_timer
     global seg_timer
+    #print(min_timer,hora_timer, seg_timer)
 
     while seg_timer != 0 or min_timer !=0 or hora_timer != 0:
         if seg_timer == 0 and min_timer != 0:
@@ -1878,11 +1863,353 @@ def timer_reloj():
     
     if seg_timer == 0 and min_timer == 0 and hora_timer == 0:
         showMensaje("Su tiempo se ha acabado")
-        print("Se acabo")
+        #print("Se acabo")
+        return
     else:
         seg_actual.after(1000, lambda:timer_reloj())
         
+
+def guarda_juego():
+    global matriz_juego
+    global partida
+    global nivel_dificultad
+    global reloj_o_time
+    global lado_num
+    global num
+    global hora_inicio
+    global min_timer
+    global hora_timer
+    global seg_timer
+    global flag_cargar_juego
+    global matriz_0_1
+    global nombre_j
+
+    #juego_guardado= {m_juego:matriz_juego,par:partida, niv_dificultad: nivel_dificultad,reloj: reloj_o_time, l_num: lado_num}
+    juego_guardado= [matriz_juego, matriz_0_1 ,nivel_dificultad, reloj_o_time, lado_num, hora_inicio, partida, nombre_j]
+    if reloj_o_time==3:
+        juego_guardado.append([hora_timer, min_timer,seg_timer])
         
+    print(juego_guardado)
+    
+
+    arc= open("futoshiki2021juegoactual.dat" , "wb")
+    pickle.dump(juego_guardado, arc)
+    arc.close
+    showMensaje("Ha sido guardado con exito")
+
+def carga_partida():
+    global matriz_juego
+    global partida
+    global nivel_dificultad
+    global reloj_o_time
+    global lado_num
+    global num
+    global hora_inicio
+    global min_timer
+    global hora_timer
+    global seg_timer
+    global matriz_0_1
+    global nombre_j
+    
+    arc= open("futoshiki2021juegoactual.dat", "rb")
+    flag_cargar_juego=True
+    ventana_a_jugar.destroy()
+    juego_guardado=pickle.load(arc)
+    arc.close
+
+    print(juego_guardado)
+    matriz_juego= juego_guardado[0]
+    matriz_0_1= juego_guardado[1]
+    nivel_dificultad= juego_guardado[2]
+    reloj_o_time= juego_guardado[3]
+    lado_num= juego_guardado[4]
+    hora_inicio=juego_guardado[5]
+    nombre_j= juego_guardado[7]
+
+    a_jugar()
+    nombre_jugador1= tk.Label(ventana_a_jugar,text= nombre_j, width= 25, font= "Corbel 12 ", bg="#F4CFB1")
+    nombre_jugador1.place(x=150, y=60)
+
+    if lado_num == 0: #Derecha
+        b1= tk.Button(ventana_a_jugar, text= "1", width= 5, bg="#F4CFB1", command=lambda:asigna_value(1)).grid(row=4, column=1)
+
+        b2= tk.Button(ventana_a_jugar, text= "2", width= 5, bg="#F4CFB1", command=lambda:asigna_value(2)).grid(row=6, column=1)
+
+        b3= tk.Button(ventana_a_jugar, text= "3", width= 5, bg="#F4CFB1", command=lambda:asigna_value(3)).grid(row=8, column=1)
+
+        b4= tk.Button(ventana_a_jugar, text= "4", width= 5, bg="#F4CFB1", command=lambda:asigna_value(4)).grid(row=10, column=1)
+
+        b5= tk.Button(ventana_a_jugar, text= "5", width= 5, bg="#F4CFB1", command=lambda:asigna_value(5)).grid(row=12, column=1)
+        
+    else:
+        b1= tk.Button(ventana_a_jugar, text= "1", width= 5, bg="#F4CFB1",  command=lambda:asigna_value(1)).grid(row=4, column=20)
+
+        b2= tk.Button(ventana_a_jugar, text= "2", width= 5, bg="#F4CFB1", command=lambda:asigna_value(2)).grid(row=6, column=20)
+
+        b3= tk.Button(ventana_a_jugar, text= "3", width= 5, bg="#F4CFB1", command=lambda:asigna_value(3)).grid(row=8, column=20)
+
+        b4= tk.Button(ventana_a_jugar, text= "4", width= 5, bg="#F4CFB1", command=lambda:asigna_value(4)).grid(row=10, column=20)
+
+        b5= tk.Button(ventana_a_jugar, text= "5", width= 5, bg="#F4CFB1", command=lambda:asigna_value(5)).grid(row=12, column=20)
+    
+    if matriz_juego[0][0] == 0:   
+        f0c0=tk.Button(ventana_a_jugar, text= "", width= 5, height= 1, bg="#F4B860", command=lambda:asigna_casilla(0)).grid(row=4, column=2)
+    else:
+        f0c0=tk.Button(ventana_a_jugar, text= matriz_juego[0][0], width= 5, height= 1, bg="#F4B860", command=lambda:asigna_casilla(0)).grid(row=4, column=2)
+        
+    if matriz_juego[1][0] == 0:
+        f0c1=tk.Button(ventana_a_jugar, text= "", width= 5, height= 1, bg="#F4B860", command=lambda:asigna_casilla(1)).grid(row=6, column=2)
+    else:
+        f0c1=tk.Button(ventana_a_jugar, text= matriz_juego[1][0], width= 5, height= 1, bg="#F4B860", command=lambda:asigna_casilla(1)).grid(row=6, column=2)
+
+    if matriz_juego[2][0] == 0:
+        f0c2=tk.Button(ventana_a_jugar, text= "", width= 5, height= 1, bg="#F4B860", command=lambda:asigna_casilla(2)).grid(row=8, column=2)
+    else:
+        f0c2=tk.Button(ventana_a_jugar, text= matriz_juego[2][0], width= 5, height= 1, bg="#F4B860", command=lambda:asigna_casilla(2)).grid(row=8, column=2)
+
+    if matriz_juego[3][0] == 0:
+        f0c3=tk.Button(ventana_a_jugar, text= "", width= 5, height= 1, bg="#F4B860",command=lambda:asigna_casilla(3)).grid(row=10, column=2)
+    else:
+        f0c3=tk.Button(ventana_a_jugar, text= matriz_juego[3][0], width= 5, height= 1, bg="#F4B860",command=lambda:asigna_casilla(3)).grid(row=10, column=2)
+
+    if matriz_juego[4][0] == 0:
+        f0c4=tk.Button(ventana_a_jugar, text= "", width= 5, height= 1, bg="#F4B860",command=lambda:asigna_casilla(4)).grid(row=12, column=2)
+    else:
+        f0c4=tk.Button(ventana_a_jugar, text= matriz_juego[4][0], width= 5, height= 1, bg="#F4B860",command=lambda:asigna_casilla(4)).grid(row=12, column=2)
+
+    #----------------------------------------------------------------------------------------------------
+    if matriz_juego[0][1] == 0:   
+        f1c0=tk.Button(ventana_a_jugar, text= "", width= 5, height= 1, bg="#F4B860",command=lambda:asigna_casilla(5)).grid(row=4, column=4)
+    else:
+        f1c0=tk.Button(ventana_a_jugar, text= matriz_juego[0][1], width= 5, height= 1, bg="#F4B860",command=lambda:asigna_casilla(5)).grid(row=4, column=4)
+        
+    if matriz_juego[1][1] == 0:   
+        f1c1=tk.Button(ventana_a_jugar, text= "", width= 5, height= 1, bg="#F4B860",command=lambda:asigna_casilla(6)).grid(row=6, column=4)
+    else:
+        f1c1=tk.Button(ventana_a_jugar, text= matriz_juego[1][1], width= 5, height= 1, bg="#F4B860",command=lambda:asigna_casilla(6)).grid(row=6, column=4)
+
+    if matriz_juego[2][1] == 0:   
+        f1c2=tk.Button(ventana_a_jugar, text= "", width= 5, height= 1, bg="#F4B860",command=lambda:asigna_casilla(7)).grid(row=8, column=4)
+    else:
+        f1c2=tk.Button(ventana_a_jugar, text= matriz_juego[2][1], width= 5, height= 1, bg="#F4B860",command=lambda:asigna_casilla(7)).grid(row=8, column=4)
+
+    if matriz_juego[3][1] == 0:   
+        f1c3=tk.Button(ventana_a_jugar, text= "", width= 5, height= 1, bg="#F4B860",command=lambda:asigna_casilla(8)).grid(row=10, column=4)
+    else:
+        f1c3=tk.Button(ventana_a_jugar, text= matriz_juego[3][1], width= 5, height= 1, bg="#F4B860",command=lambda:asigna_casilla(8)).grid(row=10, column=4)
+
+    if matriz_juego[4][1] == 0:   
+        f1c4=tk.Button(ventana_a_jugar, text= "", width= 5, height= 1, bg="#F4B860",command=lambda:asigna_casilla(9)).grid(row=12, column=4)
+    else:
+        f1c4=tk.Button(ventana_a_jugar, text= matriz_juego[4][1], width= 5, height= 1, bg="#F4B860",command=lambda:asigna_casilla(9)).grid(row=12, column=4)
+        
+    #-----------------------------------------------------------------------------------------------------------------------------------
+    if matriz_juego[0][2] == 0:   
+        f2c0=tk.Button(ventana_a_jugar, text= "", width= 5, height= 1, bg="#F4B860",command=lambda:asigna_casilla(10)).grid(row=4, column=6)
+    else:
+        f2c0=tk.Button(ventana_a_jugar, text= matriz_juego[0][2], width= 5, height= 1, bg="#F4B860",command=lambda:asigna_casilla(10)).grid(row=4, column=6)
+        
+    if matriz_juego[1][2] == 0:   
+        f2c1=tk.Button(ventana_a_jugar, text= "", width= 5, height= 1, bg="#F4B860",command=lambda:asigna_casilla(11)).grid(row=6, column=6)
+    else:
+        f2c1=tk.Button(ventana_a_jugar, text= matriz_juego[1][2], width= 5, height= 1, bg="#F4B860",command=lambda:asigna_casilla(11)).grid(row=6, column=6)
+
+    if matriz_juego[2][2] == 0:   
+        f2c2=tk.Button(ventana_a_jugar, text= "", width= 5, height= 1, bg="#F4B860",command=lambda:asigna_casilla(12)).grid(row=8, column=6)
+    else:
+        f2c2=tk.Button(ventana_a_jugar, text= matriz_juego[2][2], width= 5, height= 1, bg="#F4B860",command=lambda:asigna_casilla(12)).grid(row=8, column=6)
+
+    if matriz_juego[3][2] == 0:   
+        f2c3=tk.Button(ventana_a_jugar, text= "", width= 5, height= 1, bg="#F4B860",command=lambda:asigna_casilla(13)).grid(row=10, column=6)
+    else:
+        f2c3=tk.Button(ventana_a_jugar, text= matriz_juego[3][2], width= 5, height= 1, bg="#F4B860",command=lambda:asigna_casilla(13)).grid(row=10, column=6)
+
+    if matriz_juego[4][2] == 0:   
+        f2c4=tk.Button(ventana_a_jugar, text= "", width= 5, height= 1, bg="#F4B860",command=lambda:asigna_casilla(14)).grid(row=12, column=6)
+    else:
+        f2c4=tk.Button(ventana_a_jugar, text= matriz_juego[4][2], width= 5, height= 1, bg="#F4B860",command=lambda:asigna_casilla(14)).grid(row=12, column=6)
+
+    #-----------------------------------------------------------------------------------------------------------------------------------
+    if matriz_juego[0][3] == 0:   
+        f3c0=tk.Button(ventana_a_jugar, text= "", width= 5, height= 1, bg="#F4B860",command=lambda:asigna_casilla(15)).grid(row=4, column=8)
+    else:
+        f3c0=tk.Button(ventana_a_jugar, text= matriz_juego[0][3], width= 5, height= 1, bg="#F4B860",command=lambda:asigna_casilla(15)).grid(row=4, column=8)
+        
+    if matriz_juego[1][3] == 0:   
+        f3c1=tk.Button(ventana_a_jugar, text= "", width= 5, height= 1, bg="#F4B860",command=lambda:asigna_casilla(16)).grid(row=6, column=8)
+    else:
+        f3c1=tk.Button(ventana_a_jugar, text= matriz_juego[1][3], width= 5, height= 1, bg="#F4B860",command=lambda:asigna_casilla(16)).grid(row=6, column=8)
+
+    if matriz_juego[2][3] == 0:   
+        f3c2=tk.Button(ventana_a_jugar, text= "", width= 5, height= 1, bg="#F4B860",command=lambda:asigna_casilla(17)).grid(row=8, column=8)
+    else:
+        f3c2=tk.Button(ventana_a_jugar, text= matriz_juego[2][3], width= 5, height= 1, bg="#F4B860",command=lambda:asigna_casilla(17)).grid(row=8, column=8)
+
+    if matriz_juego[3][3] == 0:   
+        f3c3=tk.Button(ventana_a_jugar, text= "", width= 5, height= 1, bg="#F4B860",command=lambda:asigna_casilla(18)).grid(row=10, column=8)
+    else:
+        f3c3=tk.Button(ventana_a_jugar, text= matriz_juego[3][3], width= 5, height= 1, bg="#F4B860",command=lambda:asigna_casilla(18)).grid(row=10, column=8)
+        
+    if matriz_juego[4][3] == 0:   
+        f3c4=tk.Button(ventana_a_jugar, text= "", width= 5, height= 1, bg="#F4B860",command=lambda:asigna_casilla(19)).grid(row=12, column=8)
+    else:
+        f3c4=tk.Button(ventana_a_jugar, text= matriz_juego[4][3], width= 5, height= 1, bg="#F4B860",command=lambda:asigna_casilla(19)).grid(row=12, column=8)            
+
+#-----------------------------------------------------------------------------------------------------------------------------------
+    if matriz_juego[0][4] == 0:   
+        f4c0=tk.Button(ventana_a_jugar, text= "", width= 5, height= 1, bg="#F4B860",command=lambda:asigna_casilla(20)).grid(row=4, column=10)
+    else:
+        f4c0=tk.Button(ventana_a_jugar, text= matriz_juego[0][4], width= 5, height= 1, bg="#F4B860",command=lambda:asigna_casilla(20)).grid(row=4, column=10)
+        
+    if matriz_juego[1][4] == 0:   
+        f4c1=tk.Button(ventana_a_jugar, text= "", width= 5, height= 1, bg="#F4B860",command=lambda:asigna_casilla(21)).grid(row=6, column=10)
+    else:
+        f4c1=tk.Button(ventana_a_jugar, text= matriz_juego[1][4], width= 5, height= 1, bg="#F4B860",command=lambda:asigna_casilla(21)).grid(row=6, column=10)
+
+    if matriz_juego[2][4] == 0:   
+        f4c2=tk.Button(ventana_a_jugar, text= "", width= 5, height= 1, bg="#F4B860",command=lambda:asigna_casilla(22)).grid(row=8, column=10)
+    else:
+        f4c2=tk.Button(ventana_a_jugar, text= matriz_juego[2][4], width= 5, height= 1, bg="#F4B860",command=lambda:asigna_casilla(22)).grid(row=8, column=10)
+
+    if matriz_juego[3][4] == 0:   
+        f4c3=tk.Button(ventana_a_jugar, text= "", width= 5, height= 1, bg="#F4B860",command=lambda:asigna_casilla(23)).grid(row=10, column=10)
+    else:
+        f4c3=tk.Button(ventana_a_jugar, text= matriz_juego[3][4], width= 5, height= 1, bg="#F4B860",command=lambda:asigna_casilla(23)).grid(row=10, column=10)
+        
+    if matriz_juego[4][4] == 0:   
+        f4c4=tk.Button(ventana_a_jugar, text= "", width= 5, height= 1, bg="#F4B860",command=lambda:asigna_casilla(24)).grid(row=12, column=10)
+    else:
+        f4c4=tk.Button(ventana_a_jugar, text= matriz_juego[4][4], width= 5, height= 1, bg="#F4B860",command=lambda:asigna_casilla(24)).grid(row=12, column=10)
+        
+
+    signo0=tk.Label(ventana_a_jugar,text="   ",bg="#F4D6CC").grid(row=4, column=3)
+    signo1=tk.Label(ventana_a_jugar,text="   ", bg="#F4D6CC").grid(row=4, column=5)
+    signo2=tk.Label(ventana_a_jugar,text="   ", bg="#F4D6CC",).grid(row=4, column=7)
+    signo3=tk.Label(ventana_a_jugar,text="   ", bg="#F4D6CC",).grid(row=4, column=9)
+    
+    signo4=tk.Label(ventana_a_jugar,text="   ", bg="#F4D6CC",).grid(row=6, column=3)
+    signo5=tk.Label(ventana_a_jugar,text="   ", bg="#F4D6CC",).grid(row=6, column=5)
+    signo6=tk.Label(ventana_a_jugar,text="   ", bg="#F4D6CC",).grid(row=6, column=7)
+    signo7=tk.Label(ventana_a_jugar,text="   ", bg="#F4D6CC",).grid(row=6, column=9)
+ 
+    signo9=tk.Label(ventana_a_jugar,text="   ", bg="#F4D6CC",).grid(row=8, column=3)
+    signo9=tk.Label(ventana_a_jugar,text="   ", bg="#F4D6CC",).grid(row=8, column=5)
+    signo9=tk.Label(ventana_a_jugar,text="   ", bg="#F4D6CC",).grid(row=8, column=7)
+    signo9=tk.Label(ventana_a_jugar,text="   ", bg="#F4D6CC",).grid(row=8, column=9)
+    
+    signo9=tk.Label(ventana_a_jugar,text="   ", bg="#F4D6CC",).grid(row=10, column=3)
+    signo9=tk.Label(ventana_a_jugar,text="   ", bg="#F4D6CC",).grid(row=10, column=5)
+    signo9=tk.Label(ventana_a_jugar,text="   ", bg="#F4D6CC",).grid(row=10, column=7)
+    signo9=tk.Label(ventana_a_jugar,text="   ", bg="#F4D6CC",).grid(row=10, column=9)
+    
+    signo9=tk.Label(ventana_a_jugar,text="   ", bg="#F4D6CC",).grid(row=5, column=2)
+    signo9=tk.Label(ventana_a_jugar,text="   ", bg="#F4D6CC",).grid(row=5, column=4)
+    signo9=tk.Label(ventana_a_jugar,text="   ", bg="#F4D6CC",).grid(row=5, column=6)
+    signo9=tk.Label(ventana_a_jugar,text="   ", bg="#F4D6CC",).grid(row=5, column=8)
+
+    signo9=tk.Label(ventana_a_jugar,text="   ", bg="#F4D6CC",).grid(row=7, column=2)
+    signo9=tk.Label(ventana_a_jugar,text="   ", bg="#F4D6CC",).grid(row=7, column=4)
+    signo9=tk.Label(ventana_a_jugar,text="   ", bg="#F4D6CC",).grid(row=7, column=6)
+    signo9=tk.Label(ventana_a_jugar,text="   ", bg="#F4D6CC",).grid(row=7, column=8)
+    
+    signo9=tk.Label(ventana_a_jugar,text="   ", bg="#F4D6CC",).grid(row=9, column=2)
+    signo9=tk.Label(ventana_a_jugar,text="   ", bg="#F4D6CC",).grid(row=9, column=4)
+    signo9=tk.Label(ventana_a_jugar,text="   ", bg="#F4D6CC",).grid(row=9, column=6)
+    signo9=tk.Label(ventana_a_jugar,text="   ", bg="#F4D6CC",).grid(row=9, column=8)
+
+    signo9=tk.Label(ventana_a_jugar,text="   ", bg="#F4D6CC",).grid(row=11, column=2)
+    signo9=tk.Label(ventana_a_jugar,text="   ", bg="#F4D6CC",).grid(row=11, column=4)
+    signo9=tk.Label(ventana_a_jugar,text="   ", bg="#F4D6CC",).grid(row=11, column=6)
+    signo9=tk.Label(ventana_a_jugar,text="   ", bg="#F4D6CC",).grid(row=11, column=8)
+
+    partida= juego_guardado[6]
+    
+    for validacion in partida:
+        if validacion[0] not in "1 2 3 4 5":
+            print(validacion)
+            validacion1=validacion[1]
+            validacion2=validacion[2]
+            
+            if validacion[0] == "˄" or validacion[0] == "˅":
+                if validacion1 == 0:
+                    validacion1=5
+                elif validacion1==1:
+                    validacion1=7
+                elif validacion1==2:
+                    validacion1=9
+                elif validacion1==3:
+                    validacion1=11
+
+                if validacion2 == 0:
+                    validacion2= 2
+                elif validacion2==1:
+                    validacion2=4
+                elif validacion2==2:
+                    validacion2=6
+                elif validacion2==3:
+                    validacion2=8
+                elif validacion2==4:
+                    validacion2=10
+
+                signo=tk.Label(ventana_a_jugar, text= validacion[0],font= "bold", bg="#F4D6CC",).grid(row=validacion1, column=validacion2)
+                #print("Val1", validacion1,validacion2)
+    
+            if validacion[0] == ">" or validacion[0] == "<":
+                if validacion2 == 0:
+                    validacion2=3
+                elif validacion2==1:
+                    validacion2=5
+                elif validacion2==2:
+                    validacion2=7
+                elif validacion2==3:
+                    validacion2=9
+                    
+                if validacion1 == 0:
+                    validacion1=4
+                elif validacion1==1:
+                    validacion1=6
+                elif validacion1==2:
+                    validacion1=8
+                elif validacion1==3:
+                    validacion1=10
+                elif validacion1==4:
+                    validacion1=12
+                
+                
+                signo=tk.Label(ventana_a_jugar, text= validacion[0],font="Corbel 13 bold", bg="#F4D6CC",).grid(row=validacion1, column=validacion2)
+        if reloj_o_time != 2:
+            hora_label= tk.Label(ventana_a_jugar, text= "Hora",width= 9, font= "Corbel 12", bg="#DB504A").place(x=10, y=450)
+            min_label= tk.Label(ventana_a_jugar, text= "Minutos",width= 9, font= "Corbel 12 ", bg="#7A6174").place(x=95, y=450)
+            seg_label= tk.Label(ventana_a_jugar, text= "Segundos",width= 9, font= "Corbel 12 ", bg="#6D8A96").place(x=180, y=450)
+
+            hora_actual= tk.Label(ventana_a_jugar, text= "0",width= 9,height= 2,font= "Corbel 12", bg="#F4C796").place(x=10, y=475)
+            min_actual= tk.Label(ventana_a_jugar, text= "0",width= 9,height= 2,font= "Corbel 12", bg="#F4C796").place(x=95, y=475)
+            seg_actual= tk.Label(ventana_a_jugar, text= "0",width= 9,height= 2,font= "Corbel 12", bg="#F4C796")
+            seg_actual.place(x=180, y=475)
+            if reloj_o_time == 1:
+                seg_actual.after(1000, lambda:funcion_time())
+            elif reloj_o_time == 3:
+                min_timer= juego_guardado[8][0]
+                hora_timer= juego_guardado[8][1]
+                seg_timer= juego_guardado[8][2]
+                seg_actual.after(1000, lambda:timer_reloj())
+                
+        else:
+            hora_label= tk.Label(ventana_a_jugar, text= "",width= 9, font= "Corbel 12", bg="#F4D6CC").place(x=10, y=450)
+            min_label= tk.Label(ventana_a_jugar, text= "",width= 9, font= "Corbel 12 ", bg="#F4D6CC").place(x=95, y=450)
+            seg_label= tk.Label(ventana_a_jugar, text= "",width= 9, font= "Corbel 12 ", bg="#F4D6CC").place(x=180, y=450)
+
+            hora_actual= tk.Label(ventana_a_jugar, text= "",width= 9,height= 2,font= "Corbel 12", bg="#F4D6CC").place(x=10, y=475)
+            min_actual= tk.Label(ventana_a_jugar, text= " ",width= 9,height= 2,font= "Corbel 12", bg="#F4D6CC").place(x=95, y=475)
+            seg_actual= tk.Label(ventana_a_jugar, text= " ",width= 9,height= 2,font= "Corbel 12", bg="#F4D6CC")
+            seg_actual.place(x=180, y=475)
+
+   
+ 
+def escoge_partida():
+    global num
+    num= ran.randint(0,2)
+    return num        
             
         
 #Funcion para obttener la hora actual
@@ -1892,12 +2219,15 @@ def timer_reloj():
   Restricciones: NE
 '''
 def obtener_hora():
-    global hora_inicio
+    #global hora_inicio
+
+    #global hora_fin
     hora= time.strftime("%H")
     minutos= time.strftime("%M")
     seg= time.strftime("%S")
-    hora_inicio=(hora+ ":" + minutos + ":" + seg)
-    #return hora_inicio
+    hora_actual=(hora+ ":" + minutos + ":" + seg)
+    return hora_actual
+
 
     
 
@@ -1962,8 +2292,75 @@ def cambia_op_time(num):
         reloj_o_time= 2
     elif num == 3:
         reloj_o_time= 3
+        cambio_valor_cr()
     print(reloj_o_time)
 
+
+def cambio_valor_cr():
+    global ventana_cr
+    ventana_cr=tk.Tk()
+    ventana_cr.geometry("400x200")
+    ventana_cr.title("FUTOSHIKI- Tiempo del cronometro")
+    ventana_cr.config(bg="#F4D6CC")
+
+    nombre= tk.Label(ventana_cr, text= "Tiempo del cronometro", font= "Corbel 12 bold ", bg="#F4CFB1")
+    nombre.place(x=110, y=5)
+    
+    nombre= tk.Label(ventana_cr, text= "Horas: ", font= "Corbel 12 ", bg="#F4CFB1")
+    nombre.place(x=10, y=40)
+
+    nombre= tk.Label(ventana_cr, text= "Minutos: ", font= "Corbel 12 ", bg="#F4CFB1")
+    nombre.place(x=10, y=70)
+
+    nombre= tk.Label(ventana_cr, text= "Segundos: ", font= "Corbel 12 ", bg="#F4CFB1")
+    nombre.place(x=10, y=100)
+
+    horas=tk.Entry(ventana_cr, font= "12 ", bg="#F4CFB1")
+    horas.place(x=100, y=40)
+
+    minutos=tk.Entry(ventana_cr, font= "12 ", bg="#F4CFB1")
+    minutos.place(x=100, y=70)
+
+    seg=tk.Entry(ventana_cr, font= "12 ", bg="#F4CFB1")
+    seg.place(x=100, y=100)
+
+    regresar_b= tk.Button(ventana_cr, text= "Ok",font= "Corbel 12", width= 12, bg="#F4CFB1", command= lambda:valor_cr(horas.get(), minutos.get(), seg.get()))
+    regresar_b.place(x=75, y=130)
+    
+def valor_cr(horas, minutos, segundos):
+    global min_timer
+    global hora_timer
+    global seg_timer
+    global ventana_cr
+
+    if int(horas) < 0 or int(horas) > 2:
+        showMensaje("El valor en las horas no es valido")
+        return
+    else:
+        hora_timer=int(horas)
+        
+    if int(minutos) < 0 or int(minutos) > 59:
+        showMensaje("El valor en los minutos no es valido")
+        return
+    else:
+        min_timer= int(minutos)
+
+    if int(segundos) < 0 or int(segundos) > 59:
+        showMensaje("El valor en los segundos no es valido")
+        return
+    else:
+        seg_timer= int(segundos)
+
+    if hora_timer==0 and min_timer==0 and seg_timer==0:
+        showMensaje("Al menor 1 de los valores debe ser != 0")
+        return
+    else:
+        pass
+
+    ventana_cr.destroy()
+    
+
+    
 def cambia_lado_num(num):
     global lado_num
     if num== 1:
@@ -1975,10 +2372,12 @@ def cambia_lado_num(num):
 #Funcion para saber si se gana o no
 def gane():
     global matriz_0_1
+    global hora_fin
     for fila in matriz_0_1:
         for columna in fila:
             if columna == 0:
                 return
+    hora_fin= obtener_hora()
     return True
 
 def mensaje_gane():
@@ -1997,7 +2396,6 @@ def apila(numero, indice_fila, indice_columna,color, codigo, p_row, p_column):
     global matriz_0_1
     
     valor10 = matriz_0_1[indice_fila][indice_columna]
-    #print(valor10)
     lista_pila.append((numero, indice_fila, indice_columna,color,codigo,valor10,p_row, p_column))
     return
 
@@ -2013,8 +2411,8 @@ def desapila():
     global matriz_juego
     global lista_pila
     global matriz_0_1
-    #print(lista_pila)
     if lista_pila == []:
+        showMensaje("No hay mas jugadas para borrar")
         return
 
     #elemento2=lista_pila[-1]
@@ -2112,11 +2510,13 @@ global min_timer
 global hora_timer
 global seg_timer
 
+global flag_cargar_juego
+
 global lista_pila
 min_timer=0
 hora_timer=0
 seg_timer=10
-
+flag_cargar_juego=False
 lista_pila=[]
 
 
