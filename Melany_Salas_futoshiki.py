@@ -645,14 +645,14 @@ def asigna_casilla(cod):
                 pass
             
         if valida_mayor1(2, 1) == False and f!= False:
-            f1c3=tk.Button(ventana_a_jugar, text= numero, width= 5, height= 1, bg="#C83E4D",command=lambda:asigna_casilla(8)).grid(row=10, column=4)
+            f1c2=tk.Button(ventana_a_jugar, text= numero, width= 5, height= 1, bg="#C83E4D",command=lambda:asigna_casilla(7)).grid(row=8, column=4)
             showMensaje("El numero " + str(numero)+ " no cumple con la restriccion")
             matriz_0_1[2][1]=0
             f=False
             
         
         elif valida_mayor2(2, 1) == False and f!= False:
-            f1c3=tk.Button(ventana_a_jugar, text= numero, width= 5, height= 1, bg="#C83E4D",command=lambda:asigna_casilla(8)).grid(row=10, column=4)
+            f1c2=tk.Button(ventana_a_jugar, text= numero, width= 5, height= 1, bg="#C83E4D",command=lambda:asigna_casilla(7)).grid(row=8, column=4)
             showMensaje("El numero " + str(numero)+ " no cumple con la restriccion")
             matriz_0_1[2][1]=0
             f=False
@@ -668,6 +668,7 @@ def asigna_casilla(cod):
             return
         apila(matriz_juego[3][1], 3, 1,"#F4B860", 8, 10, 4)     
         matriz_juego[3][1]= numero
+        print(numero)
         
         for i,num in enumerate(matriz_juego[3]):
             if numero == int(matriz_juego[0][1]) or numero == int(matriz_juego[1][1]) or numero == int(matriz_juego[2][1]) or numero == int(matriz_juego[4][1]):
@@ -1221,13 +1222,13 @@ def asigna_casilla(cod):
                 pass
             
         if valida_mayor1(0, 4) == False and f!= False:
-            f3c4=tk.Button(ventana_a_jugar, text= numero, width= 5, height= 1, bg="#C83E4D",command=lambda:asigna_casilla(19)).grid(row=12, column=8)
+            f4c0=tk.Button(ventana_a_jugar, text= numero, width= 5, height= 1, bg="#C83E4D",command=lambda:asigna_casilla(20)).grid(row=4, column=10)
             showMensaje("El numero " + str(numero)+ " no cumple con la restriccion")
             matriz_0_1[0][4]=0
             f=False
         
         elif valida_mayor2(0, 4) == False and f!= False:
-            f3c4=tk.Button(ventana_a_jugar, text= numero, width= 5, height= 1, bg="#C83E4D",command=lambda:asigna_casilla(19)).grid(row=12, column=8)
+            f4c0=tk.Button(ventana_a_jugar, text= numero, width= 5, height= 1, bg="#C83E4D",command=lambda:asigna_casilla(20)).grid(row=4, column=10)
             showMensaje("El numero " + str(numero)+ " no cumple con la restriccion")
             matriz_0_1[0][4]=0
             f=False
@@ -1428,12 +1429,15 @@ def carga_juego(nombre_jugador):
     global nombre_j
     global flag_cargar_juego
     global lista_pila
+    global nivel_dificultad
 
     global min_timer
     global hora_timer
     global seg_timer
 
     lista_pila= []
+    arc_jugadas=asigna_datos("futoshiki2021partidas.dat")
+    print(arc_jugadas)
 
     if flag_cargar_juego == False:
         nombre_jugador=str(nombre_jugador)
@@ -1445,11 +1449,21 @@ def carga_juego(nombre_jugador):
             return
         
         nombre_j=nombre_jugador
+       # partida1=arc_jugadas[num]
         
-        partida=arc_jugadas[num]
+        if nivel_dificultad == 1:
+            partida= arc_jugadas[0][num]
+            
+        if nivel_dificultad == 2:
+            partida= arc_jugadas[1][num]
+            
+        if nivel_dificultad == 3:
+            partida = arc_jugadas[2][num]
+            
         crea_matriz()
         hora_inicio= obtener_hora()
         print(hora_inicio)
+        #print(partida)
     
     if reloj_o_time == 1:
         seg_actual.after(1000, lambda:funcion_time())
@@ -1782,46 +1796,7 @@ def configuracion():
     #Botones
     regresar_b= tk.Button(ventana_configuracion, text= "Regresar",font= "Corbel 12", width= 12, bg="#F4CFB1", command= lambda:regresar(ventana_configuracion))
     regresar_b.place(x=250, y=350)
-#________________________________
-'''
-Funcion qque verifica restricciones de mayor y menor que
-Entradas:indices en la matriz
-Salidas: retorna False si no cumple con la restriccion y True si sí la cumple
-'''
-def valida_mayor1(ind_fila, ind_columna):
-    global partida
-    global matriz_juego
-    global numero
-    for validacion in partida:
-        if validacion[1] == ind_fila:
-            if validacion[2] == ind_columna:
-                try:
-                    if matriz_juego[ind_fila][ind_columna] == 0:
-                        return True
-                    
-                    elif matriz_juego[ind_fila+1][ind_columna]== 0:
-                        return True
-                    
-                    elif int(matriz_juego[ind_fila][ind_columna+1]) == 0:
-                        return True
-                    
-                    else:
-                        if validacion[0] == ">":
-                            if int(matriz_juego[ind_fila][ind_columna]) < int(matriz_juego[ind_fila][ind_columna+1]):
-                                return False
-                        elif validacion[0] == "˄":
-                
-                            if int(matriz_juego[ind_fila][ind_columna]) > int(matriz_juego[ind_fila+1][ind_columna]):
-                                return False
-                        elif validacion[0] == "<":
-                            if int(matriz_juego[ind_fila][ind_columna]) > int(matriz_juego[ind_fila][ind_columna+1]):
-                                return False
-                        elif validacion[0] == "˅":
-                            if int(matriz_juego[ind_fila][ind_columna]) < int(matriz_juego[ind_fila+1][ind_columna]):
-                                return False
-                except:
-                    break
-    return True
+
 def funcion_time():
     global reloj_o_time
     
@@ -2229,7 +2204,12 @@ def obtener_hora():
     return hora_actual
 
 
-    
+#________________________________
+'''
+Funcion qque verifica restricciones de mayor y menor que
+Entradas:indices en la matriz
+Salidas: retorna False si no cumple con la restriccion y True si sí la cumple
+'''
 
 def valida_mayor2(ind_fila, ind_columna):
     global partida
@@ -2271,6 +2251,104 @@ def valida_mayor2(ind_fila, ind_columna):
                 
     return True
 
+
+def valida_mayor1(ind_fila, ind_columna):
+    global partida
+    global matriz_juego
+    global numero
+    for validacion in partida:
+        if validacion[1] == ind_fila:
+            if validacion[2] == ind_columna:
+                #print("1", validacion)
+                #print(matriz_juego)
+                #print(matriz_juego[ind_fila][ind_columna], matriz_juego[ind_fila][ind_columna+1])
+                try:
+                    if matriz_juego[ind_fila][ind_columna] == 0:
+                        break
+                    
+                    
+                    else:
+                        if validacion[0] == ">":
+                            if int(matriz_juego[ind_fila][ind_columna+1]) ==0:
+                                break
+                            if int(matriz_juego[ind_fila][ind_columna]) < int(matriz_juego[ind_fila][ind_columna+1]):
+                                return False
+                        elif validacion[0] == "˄":
+                            if matriz_juego[ind_fila+1][ind_columna] == 0:
+                                break
+                            if int(matriz_juego[ind_fila][ind_columna]) > int(matriz_juego[ind_fila+1][ind_columna]):
+                                return False
+                            
+                        elif validacion[0] == "<":
+                            if int(matriz_juego[ind_fila][ind_columna+1]) ==0:
+                                break
+                            if int(matriz_juego[ind_fila][ind_columna]) < int(matriz_juego[ind_fila][ind_columna+1]):
+                                return False
+                            
+                        elif validacion[0] == "˅":
+                            if matriz_juego[ind_fila+1][ind_columna] == 0:
+                                break
+                            if int(matriz_juego[ind_fila][ind_columna]) < int(matriz_juego[ind_fila+1][ind_columna]):
+                                return False
+                except:
+                    print("Error 3")
+                    break
+    return True    
+
+'''
+def valida_mayor2(ind_fila, ind_columna):
+    global partida
+    global matriz_juego
+    global numero
+    for validacion in partida:
+        if validacion[1] == ind_fila:
+            print(validacion)
+            if validacion[2]+1 == ind_columna:
+                print("2", validacion)
+                print(matriz_juego)
+                print(matriz_juego[ind_fila][ind_columna], matriz_juego[validacion[1]][validacion[2]])
+
+                if int(matriz_juego[ind_fila][ind_columna]) == 0:
+                    print(True)
+                    return True
+
+                if validacion[0] == '>':
+                    if int(matriz_juego[ind_fila][ind_columna-1])== 0:
+                        break
+                    
+                    if int(matriz_juego[ind_fila][ind_columna]) < int(matriz_juego[ind_fila][ind_columna-1]):
+                        return False
+                    
+                elif validacion[0] == "<":
+                    if int(matriz_juego[ind_fila][ind_columna+1])== 0:
+                        break
+                    if int(matriz_juego[ind_fila][ind_columna]) > int(matriz_juego[ind_fila][ind_columna-1]):
+                        return False
+
+                
+        elif validacion[1]+1 == ind_fila:
+            if validacion[2] == ind_columna:
+                print("1", validacion)
+                print(matriz_juego)
+                print(matriz_juego[ind_fila][ind_columna], matriz_juego[ind_fila-1][ind_columna])
+                try:
+                    #print(matriz_juego[ind_fila][ind_columna])
+                    if matriz_juego[ind_fila][ind_columna] == 0:
+                        return True
+                    
+                    else:
+                        if validacion[0] == "˄":
+                            if int(matriz_juego[ind_fila][ind_columna]) < int(matriz_juego[ind_fila-1][ind_columna]):
+                                return False
+                        elif validacion[0] == "˅":
+                            if int(matriz_juego[ind_fila][ind_columna]) > int(matriz_juego[ind_fila-1][ind_columna]):
+                                return False
+                except:
+                    print("Error 1")
+                    pass
+    print(1234)        
+    return True
+'''
     
 
 def asigna_nivel(num):
@@ -2528,7 +2606,7 @@ crea_matriz()
 reloj_o_time=1
 
 
-arc_jugadas=asigna_datos("futoshiki2021partidas.dat")
+
 #print(arc_jugadas)
 '''
 Ventana principal
