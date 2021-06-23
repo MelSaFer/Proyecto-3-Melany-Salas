@@ -88,6 +88,9 @@ def a_jugar():
     global min_timer
     global hora_timer
     global seg_timer
+    global ind_escoge_par
+
+    ind_escoge_par = 1
 
     flag1= 1
     ventana_principal.state(newstate="withdraw")
@@ -223,7 +226,7 @@ def a_jugar():
     borra_jugada_b= tk.Button(ventana_a_jugar, text= "Borrar jugada",font= "Corbel 12",width= 11, bg="#658E9C", command= desapila).place(x=150, y=400)
 
     #Boton Termina juego
-    termina_juego_b= tk.Button(ventana_a_jugar, text= "Terminar juego",font= "Corbel 12",width= 11, bg="#6D8A96").place(x=290, y=400)
+    termina_juego_b= tk.Button(ventana_a_jugar, text= "Terminar juego",font= "Corbel 12",width= 11, bg="#6D8A96", command= termina_juego).place(x=290, y=400)
 
     #Boton Top 10
     top10_b= tk.Button(ventana_a_jugar, text= "Top 10",font= "Corbel 12",width= 11, bg="#DB504A").place(x=440, y=400)
@@ -233,6 +236,9 @@ def a_jugar():
 
     #Boton Carga juego
     cargar_juego_b= tk.Button(ventana_a_jugar, text= "Cargar juego",font= "Corbel 12",width= 11, bg="#7A6174", command=carga_partida).place(x=440, y=500)
+    
+    #borrar_juego()
+    borra_juego_b= tk.Button(ventana_a_jugar, text= "Borrar juego",font= "Corbel 12",width= 11, bg="#6D8A96", command= lambda:borrar_juego(nombre_jugador1.get())).place(x=355, y=450)
 
     #Etiquetas reloj
     if reloj_o_time != 2:
@@ -1415,7 +1421,55 @@ def regresar_pr(ventana, cod):
         pass
     else:
         cambio_valor_cr()
-        
+#Funcion para preguntar si desea terminar el juego
+def termina_juego():
+    ventana_tj=tk.Toplevel()
+    ventana_tj.geometry("350x100")
+    ventana_tj.title("FUTOSHIKI- Terminar el juego")
+    ventana_tj.config(bg="#F4D6CC")
+    
+    nombre= tk.Label(ventana_tj, text= "¿Esta seguro de que desea terminar el juego?", font= "Corbel 12 bold ", bg="#F4CFB1")
+    nombre.place(x=5, y=5)
+
+    regresar_b= tk.Button(ventana_tj, text= "No",font= "Corbel 12", bg="#F4CFB1", command= lambda:regresar_tj(ventana_tj, 0))
+    regresar_b.place(x=45, y=50)
+
+    regresar_b= tk.Button(ventana_tj, text= "Sí",font= "Corbel 12", bg="#F4CFB1", command= lambda:regresar_tj(ventana_tj, 1))
+    regresar_b.place(x=85, y=50)
+
+def regresar_tj(ventana, cod):
+    global ventana_a_jugar
+    if cod == 0:
+        pass
+    elif cod == 1:
+        ventana_a_jugar.destroy()
+        a_jugar()
+    ventana.destroy()
+    
+#Funcion para borrar el juego actual
+def borrar_juego(nombre_jugador):
+    ventana_bj=tk.Toplevel()
+    ventana_bj.geometry("350x100")
+    ventana_bj.title("FUTOSHIKI- Terminar el juego")
+    ventana_bj.config(bg="#F4D6CC")
+    
+    nombre= tk.Label(ventana_bj, text= "¿Esta seguro de que desa borrar el juego?", font= "Corbel 12 bold ", bg="#F4CFB1")
+    nombre.place(x=5, y=5)
+
+    regresar_b= tk.Button(ventana_bj, text= "No",font= "Corbel 12", bg="#F4CFB1", command= lambda:regresar_bj(ventana_bj,0, nombre_jugador))
+    regresar_b.place(x=45, y=50)
+
+    regresar_b= tk.Button(ventana_bj, text= "Sí",font= "Corbel 12", bg="#F4CFB1", command= lambda:regresar_bj(ventana_bj,1, nombre_jugador))
+    regresar_b.place(x=85, y=50)
+def regresar_bj(ventana, cod, nombre_jugador):
+    global ind_escoge_par
+    global ventana_a_jugar
+    if cod == 0:
+        pass
+    elif cod == 1:
+        ind_escoge_par=0
+        carga_juego(nombre_jugador)
+    ventana.destroy()
 
 def carga_juego(nombre_jugador):
     global flag_cargar_juego
@@ -1430,6 +1484,7 @@ def carga_juego(nombre_jugador):
     global flag_cargar_juego
     global lista_pila
     global nivel_dificultad
+    global ind_escoge_par
 
     global min_timer
     global hora_timer
@@ -1437,7 +1492,7 @@ def carga_juego(nombre_jugador):
 
     lista_pila= []
     arc_jugadas=asigna_datos("futoshiki2021partidas.dat")
-    print(arc_jugadas)
+    #print(arc_jugadas)
 
     if flag_cargar_juego == False:
         nombre_jugador=str(nombre_jugador)
@@ -1451,25 +1506,24 @@ def carga_juego(nombre_jugador):
         nombre_j=nombre_jugador
        # partida1=arc_jugadas[num]
         
-        if nivel_dificultad == 1:
+        if nivel_dificultad == 1 and ind_escoge_par == 1:
             partida= arc_jugadas[0][num]
             
-        if nivel_dificultad == 2:
+        if nivel_dificultad == 2 and ind_escoge_par == 1:
             partida= arc_jugadas[1][num]
             
-        if nivel_dificultad == 3:
+        if nivel_dificultad == 3 and ind_escoge_par == 1:
             partida = arc_jugadas[2][num]
             
         crea_matriz()
-        hora_inicio= obtener_hora()
+        if ind_escoge_par == 1:
+            hora_inicio= obtener_hora()
         print(hora_inicio)
-        #print(partida)
     
     if reloj_o_time == 1:
         seg_actual.after(1000, lambda:funcion_time())
     elif reloj_o_time == 3:
         seg_actual.after(1000, lambda:timer_reloj())
-        
     
     signo0=tk.Label(ventana_a_jugar,text="   ",bg="#F4D6CC").grid(row=4, column=3)
     signo1=tk.Label(ventana_a_jugar,text="   ", bg="#F4D6CC").grid(row=4, column=5)
@@ -2589,6 +2643,7 @@ global hora_timer
 global seg_timer
 
 global flag_cargar_juego
+global ind_escoge_par
 
 global lista_pila
 min_timer=0
@@ -2596,6 +2651,7 @@ hora_timer=0
 seg_timer=10
 flag_cargar_juego=False
 lista_pila=[]
+ind_escoge_par=1
 
 
 matriz_juego=[]
