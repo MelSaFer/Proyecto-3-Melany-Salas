@@ -11,6 +11,7 @@ import random as ran
 import time
 import pickle
 from tkinter import messagebox
+from datetime import datetime
 
 #----------------------------------Funciones--------------------------
 #__________________________________________
@@ -90,6 +91,12 @@ def a_jugar():
     global seg_timer
     global ind_escoge_par
 
+    global b1
+    global b2
+    global b3
+    global b4
+    global b5
+
     ind_escoge_par = 1
 
     flag1= 1
@@ -122,26 +129,38 @@ def a_jugar():
     
     
     if lado_num == 0: #Derecha
-        b1= tk.Button(ventana_a_jugar, text= "1", width= 5, bg="#F4CFB1", command=lambda:asigna_value(1)).grid(row=4, column=1)
+        b1= tk.Button(ventana_a_jugar, text= "1", width= 5, bg="#F4CFB1", command=lambda:asigna_value(1))
+        b1.grid(row=4, column=1)
 
-        b2= tk.Button(ventana_a_jugar, text= "2", width= 5, bg="#F4CFB1", command=lambda:asigna_value(2)).grid(row=6, column=1)
+        b2= tk.Button(ventana_a_jugar, text= "2", width= 5, bg="#F4CFB1", command=lambda:asigna_value(2))
+        b2.grid(row=6, column=1)
 
-        b3= tk.Button(ventana_a_jugar, text= "3", width= 5, bg="#F4CFB1", command=lambda:asigna_value(3)).grid(row=8, column=1)
+        b3= tk.Button(ventana_a_jugar, text= "3", width= 5, bg="#F4CFB1", command=lambda:asigna_value(3))
+        b3.grid(row=8, column=1)
 
-        b4= tk.Button(ventana_a_jugar, text= "4", width= 5, bg="#F4CFB1", command=lambda:asigna_value(4)).grid(row=10, column=1)
+        b4= tk.Button(ventana_a_jugar, text= "4", width= 5, bg="#F4CFB1", command=lambda:asigna_value(4))
+        b4.grid(row=10, column=1)
 
-        b5= tk.Button(ventana_a_jugar, text= "5", width= 5, bg="#F4CFB1", command=lambda:asigna_value(5)).grid(row=12, column=1)
+        b5= tk.Button(ventana_a_jugar, text= "5", width= 5, bg="#F4CFB1", command=lambda:asigna_value(5))
+        b5.grid(row=12, column=1)
         
     else:
-        b1= tk.Button(ventana_a_jugar, text= "1", width= 5, bg="#F4CFB1",  command=lambda:asigna_value(1)).grid(row=4, column=20)
+        b1= tk.Button(ventana_a_jugar, text= "1", width= 5, bg="#F4CFB1",  command=lambda:asigna_value(1))
+        b1.grid(row=4, column=20)
 
-        b2= tk.Button(ventana_a_jugar, text= "2", width= 5, bg="#F4CFB1", command=lambda:asigna_value(2)).grid(row=6, column=20)
+        b2= tk.Button(ventana_a_jugar, text= "2", width= 5, bg="#F4CFB1", command=lambda:asigna_value(2))
+        b2.grid(row=6, column=20)
 
-        b3= tk.Button(ventana_a_jugar, text= "3", width= 5, bg="#F4CFB1", command=lambda:asigna_value(3)).grid(row=8, column=20)
+        b3= tk.Button(ventana_a_jugar, text= "3", width= 5, bg="#F4CFB1", command=lambda:asigna_value(3))
+        b3.grid(row=8, column=20)
 
-        b4= tk.Button(ventana_a_jugar, text= "4", width= 5, bg="#F4CFB1", command=lambda:asigna_value(4)).grid(row=10, column=20)
+        b4= tk.Button(ventana_a_jugar, text= "4", width= 5, bg="#F4CFB1", command=lambda:asigna_value(4))
+        b4.grid(row=10, column=20)
 
-        b5= tk.Button(ventana_a_jugar, text= "5", width= 5, bg="#F4CFB1", command=lambda:asigna_value(5)).grid(row=12, column=20)
+        b5= tk.Button(ventana_a_jugar, text= "5", width= 5, bg="#F4CFB1", command=lambda:asigna_value(5))
+        b5.grid(row=12, column=20)
+        
+    #asigna_value(0)
         
     f0c0=tk.Button(ventana_a_jugar, text= "", width= 5, height= 1, bg="#F4B860", command=lambda:asigna_casilla(0)).grid(row=4, column=2)
     f0c1=tk.Button(ventana_a_jugar, text= "", width= 5, height= 1, bg="#F4B860", command=lambda:asigna_casilla(1)).grid(row=6, column=2)
@@ -276,20 +295,52 @@ Salidas: actualiza el valor de la variable numero
 '''
 def asigna_value(boton):
     global numero
+    global b1
+    global b2
+    global b3
+    global b4
+    global b5
     if boton == 1:
         numero=1
+        b1.config(bg="#70b578")
+        b2.config(bg="#F4CFB1")
+        b3.config(bg="#F4CFB1")
+        b4.config(bg="#F4CFB1")
+        b5.config(bg="#F4CFB1")
         
     elif boton == 2:
         numero=2
+        b1.config(bg="#F4CFB1")
+        b2.config(bg="#70b578")
+        b3.config(bg="#F4CFB1")
+        b4.config(bg="#F4CFB1")
+        b5.config(bg="#F4CFB1")
        
     elif boton == 3:
         numero=3
+        b1.config(bg="#F4CFB1")
+        b2.config(bg="#F4CFB1")
+        b3.config(bg="#70b578")
+        b4.config(bg="#F4CFB1")
+        b5.config(bg="#F4CFB1")
 
     elif boton == 4:
         numero=4
+        b1.config(bg="#F4CFB1")
+        b2.config(bg="#F4CFB1")
+        b3.config(bg="#F4CFB1")
+        b4.config(bg="#70b578")
+        b5.config(bg="#F4CFB1")
         
     elif boton == 5:
         numero=5
+        b1.config(bg="#F4CFB1")
+        b2.config(bg="#F4CFB1")
+        b3.config(bg="#F4CFB1")
+        b4.config(bg="#F4CFB1")
+        b5.config(bg="#70b578")
+    else:
+        pass
         
     return
 #__________________________________________
@@ -308,6 +359,10 @@ def asigna_casilla(cod):
     global ventana_a_jugar
 
     global matriz_0_1
+
+    if numero != 1 and numero != 2 and numero != 3 and numero != 4 and numero != 5:
+        showMensaje("No ha seleccionado un numero")
+        return
 
     if cod == 0:
         f=False
@@ -398,7 +453,8 @@ def asigna_casilla(cod):
             f = False
             
         if gane() == True:
-            showMensaje("Ganó")
+            #showMensaje("Ganó")
+            mensaje_gane()
             
       
     elif cod == 2:
@@ -443,8 +499,8 @@ def asigna_casilla(cod):
             f= False
             
         if gane() == True:
-            showMensaje("Ganó")
-
+            #showMensaje("Ganó")
+            mensaje_gane()
    
     elif cod == 3:
         if isinstance(matriz_juego[3][0],str):
@@ -488,7 +544,8 @@ def asigna_casilla(cod):
             f=False
         
         if gane() == True:
-            showMensaje("Ganó")
+            #showMensaje("Ganó")
+            mensaje_gane()
         
 
     elif cod == 4:
@@ -532,7 +589,8 @@ def asigna_casilla(cod):
             f=False
         
         if gane() == True:
-            showMensaje("Ganó")
+            #showMensaje("Ganó")
+            mensaje_gane()
           
 #_________________________________________________________________________________________________________________________________________________
         
@@ -577,7 +635,8 @@ def asigna_casilla(cod):
             f= False
             
         if gane() == True:
-            showMensaje("Ganó")
+            #showMensaje("Ganó")
+            mensaje_gane()
 
         
     elif cod == 6:
@@ -620,7 +679,8 @@ def asigna_casilla(cod):
             f= False
 
         if gane() == True:
-            showMensaje("Ganó")
+            #showMensaje("Ganó")
+            mensaje_gane()
 
     
     elif cod == 7:
@@ -664,7 +724,8 @@ def asigna_casilla(cod):
             f=False
 
         if gane() == True:
-            showMensaje("Ganó")
+            #showMensaje("Ganó")
+            mensaje_gane()
         
 
     
@@ -710,7 +771,8 @@ def asigna_casilla(cod):
             f= False
             
         if gane() == True:
-            showMensaje("Ganó")
+            #showMensaje("Ganó")
+            mensaje_gane()
 
         
     elif cod == 9:
@@ -752,7 +814,9 @@ def asigna_casilla(cod):
             showMensaje("El numero " + str(numero)+ " no cumple con la restriccion")
             matriz_0_1[4][1]=0
             f=False
-
+        if gane() == True:
+            #showMensaje("Ganó")
+            mensaje_gane()
 
 #_________________________________________________________________________________________________________________________________________________
         
@@ -797,9 +861,8 @@ def asigna_casilla(cod):
             f=False
 
         if gane() == True:
-            showMensaje("Ganó")
-                
-
+            #showMensaje("Ganó")
+            mensaje_gane()
     
     elif cod == 11:
         if isinstance(matriz_juego[1][2],str):
@@ -845,9 +908,8 @@ def asigna_casilla(cod):
             #print("es aqui 2")
 
         if gane() == True:
-            showMensaje("Ganó")
-
-
+            #showMensaje("Ganó")
+            mensaje_gane()
     
     elif cod == 12:
         if isinstance(matriz_juego[2][2],str):
@@ -891,9 +953,10 @@ def asigna_casilla(cod):
             f= False
             
         if gane() == True:
-            showMensaje("Ganó")
-     
-    
+            #showMensaje("Ganó")
+            mensaje_gane()
+
+            
     elif cod == 13:
         if isinstance(matriz_juego[3][2],str):
             showMensaje("JUGADA NO ES VÁLIDA PORQUE ESTE ES UN DÍGITO FIJO")
@@ -936,8 +999,8 @@ def asigna_casilla(cod):
             f=False
 
         if gane() == True:
-            showMensaje("Ganó")
-
+            #showMensaje("Ganó")
+            mensaje_gane()
     
     elif cod == 14:
         if isinstance(matriz_juego[4][2],str):
@@ -980,7 +1043,8 @@ def asigna_casilla(cod):
             f=False
 
         if gane() == True:
-            showMensaje("Ganó")
+            #showMensaje("Ganó")
+            mensaje_gane()
 
 #_________________________________________________________________________________________________________________________________________________
 
@@ -1024,7 +1088,8 @@ def asigna_casilla(cod):
             f=False
 
         if gane() == True:
-            showMensaje("Ganó")
+            #showMensaje("Ganó")
+            mensaje_gane()
 
         
     elif cod == 16:
@@ -1067,7 +1132,8 @@ def asigna_casilla(cod):
             f=False
 
         if gane() == True:
-            showMensaje("Ganó")
+            #showMensaje("Ganó")
+            mensaje_gane()
             
     
     elif cod == 17:
@@ -1110,7 +1176,8 @@ def asigna_casilla(cod):
             f=False
 
         if gane() == True:
-            showMensaje("Ganó")
+            #showMensaje("Ganó")
+            mensaje_gane()
 
     
     elif cod == 18:
@@ -1153,7 +1220,8 @@ def asigna_casilla(cod):
             f=False 
 
         if gane() == True:
-            showMensaje("Ganó")
+            #showMensaje("Ganó")
+            mensaje_gane()
 
     
     elif cod == 19:
@@ -1196,7 +1264,8 @@ def asigna_casilla(cod):
             f=False
 
         if gane() == True:
-            showMensaje("Ganó")
+            #showMensaje("Ganó")
+            mensaje_gane()
 
 #________________________________________________________________________________________________________________________________________________
         
@@ -1240,7 +1309,8 @@ def asigna_casilla(cod):
             f=False
 
         if gane() == True:
-            showMensaje("Ganó")
+            #showMensaje("Ganó")
+            mensaje_gane()
 
 
     
@@ -1284,7 +1354,8 @@ def asigna_casilla(cod):
             f=False
 
         if gane() == True:
-            showMensaje("Ganó")
+            #showMensaje("Ganó")
+            mensaje_gane()
 
 
     elif cod == 22:
@@ -1327,7 +1398,8 @@ def asigna_casilla(cod):
             f=False
 
         if gane() == True:
-            showMensaje("Ganó")
+            #showMensaje("Ganó")
+            mensaje_gane()
 
 
     
@@ -1371,7 +1443,8 @@ def asigna_casilla(cod):
             f=False
 
         if gane() == True:
-            showMensaje("Ganó")
+            #showMensaje("Ganó")
+            mensaje_gane()
 
    
     elif cod == 24:
@@ -1413,7 +1486,8 @@ def asigna_casilla(cod):
             f=False
 
         if gane() == True:
-            showMensaje("Ganó")
+            #showMensaje("Ganó")
+            mensaje_gane()
 
 def regresar_pr(ventana, cod):
     ventana.destroy()
@@ -1461,6 +1535,7 @@ def borrar_juego(nombre_jugador):
 
     regresar_b= tk.Button(ventana_bj, text= "Sí",font= "Corbel 12", bg="#F4CFB1", command= lambda:regresar_bj(ventana_bj,1, nombre_jugador))
     regresar_b.place(x=85, y=50)
+    
 def regresar_bj(ventana, cod, nombre_jugador):
     global ind_escoge_par
     global ventana_a_jugar
@@ -1891,13 +1966,52 @@ def timer_reloj():
     seg_actual.place(x=180, y=475)
     
     if seg_timer == 0 and min_timer == 0 and hora_timer == 0:
-        showMensaje("Su tiempo se ha acabado")
-        #print("Se acabo")
+        fin_time()
         return
     else:
         seg_actual.after(1000, lambda:timer_reloj())
         
+def fin_time():
+    global ventana_a_jugar
+    
+    ventana_q=tk.Tk()
+    ventana_q.geometry("400x200")
+    ventana_q.title("FUTOSHIKI- Tiempo del cronometro")
+    
+    ventana_q.config(bg="#F4D6CC")
 
+    nombre= tk.Label(ventana_q, text= "El tiempo se ha acabadabo, ¿Desea continuar?", font= "Corbel 12 bold ", bg="#F4CFB1")
+    nombre.place(x=5, y=5)
+
+    regresar_b= tk.Button(ventana_q, text= "No",font= "Corbel 12", bg="#F4CFB1", command= lambda:regresar_3(ventana_q, 0))
+    regresar_b.place(x=45, y=50)
+
+    regresar_b= tk.Button(ventana_q, text= "Sí",font= "Corbel 12", bg="#F4CFB1", command= lambda:regresar_3(ventana_q, 1))
+    regresar_b.place(x=85, y=50)
+    
+
+def regresar_3(ventana, cod):
+    global ventana_a_jugar
+    
+    if cod == 0:
+        regresar(ventana_a_jugar)
+
+    asigna_timer_o()
+    ventana.destroy()
+        
+def asigna_timer_o():
+    global min_timer_o
+    global hora_timer_o
+    global seg_timer_o
+    global min_timer
+    global hora_timer
+    global seg_timer
+    
+    min_timer= min_timer_o
+    seg_timer= seg_timer_o
+    hora_timer= hora_timer_o
+
+  
 def guarda_juego():
     global matriz_juego
     global partida
@@ -2349,62 +2463,6 @@ def valida_mayor1(ind_fila, ind_columna):
                     break
     return True    
 
-'''
-def valida_mayor2(ind_fila, ind_columna):
-    global partida
-    global matriz_juego
-    global numero
-    for validacion in partida:
-        if validacion[1] == ind_fila:
-            print(validacion)
-            if validacion[2]+1 == ind_columna:
-                print("2", validacion)
-                print(matriz_juego)
-                print(matriz_juego[ind_fila][ind_columna], matriz_juego[validacion[1]][validacion[2]])
-
-                if int(matriz_juego[ind_fila][ind_columna]) == 0:
-                    print(True)
-                    return True
-
-                if validacion[0] == '>':
-                    if int(matriz_juego[ind_fila][ind_columna-1])== 0:
-                        break
-                    
-                    if int(matriz_juego[ind_fila][ind_columna]) < int(matriz_juego[ind_fila][ind_columna-1]):
-                        return False
-                    
-                elif validacion[0] == "<":
-                    if int(matriz_juego[ind_fila][ind_columna+1])== 0:
-                        break
-                    if int(matriz_juego[ind_fila][ind_columna]) > int(matriz_juego[ind_fila][ind_columna-1]):
-                        return False
-
-                
-        elif validacion[1]+1 == ind_fila:
-            if validacion[2] == ind_columna:
-                print("1", validacion)
-                print(matriz_juego)
-                print(matriz_juego[ind_fila][ind_columna], matriz_juego[ind_fila-1][ind_columna])
-                try:
-                    #print(matriz_juego[ind_fila][ind_columna])
-                    if matriz_juego[ind_fila][ind_columna] == 0:
-                        return True
-                    
-                    else:
-                        if validacion[0] == "˄":
-                            if int(matriz_juego[ind_fila][ind_columna]) < int(matriz_juego[ind_fila-1][ind_columna]):
-                                return False
-                        elif validacion[0] == "˅":
-                            if int(matriz_juego[ind_fila][ind_columna]) > int(matriz_juego[ind_fila-1][ind_columna]):
-                                return False
-                except:
-                    print("Error 1")
-                    pass
-    print(1234)        
-    return True
-'''
-    
-
 def asigna_nivel(num):
     global nivel_dificultad
     if num== 1:
@@ -2463,6 +2521,11 @@ def valor_cr(horas, minutos, segundos):
     global min_timer
     global hora_timer
     global seg_timer
+
+    global min_timer_o
+    global hora_timer_o
+    global seg_timer_o
+    
     global ventana_cr
 
     if int(horas) < 0 or int(horas) > 2:
@@ -2470,18 +2533,21 @@ def valor_cr(horas, minutos, segundos):
         return
     else:
         hora_timer=int(horas)
+        hora_timer_o=int(horas)
         
     if int(minutos) < 0 or int(minutos) > 59:
         showMensaje("El valor en los minutos no es valido")
         return
     else:
         min_timer= int(minutos)
+        min_timer_o= int(minutos)
 
     if int(segundos) < 0 or int(segundos) > 59:
         showMensaje("El valor en los segundos no es valido")
         return
     else:
         seg_timer= int(segundos)
+        seg_timer_o= int(segundos)
 
     if hora_timer==0 and min_timer==0 and seg_timer==0:
         showMensaje("Al menor 1 de los valores debe ser != 0")
@@ -2510,10 +2576,53 @@ def gane():
             if columna == 0:
                 return
     hora_fin= obtener_hora()
+    diferencia= diferencia_horas()
+    
     return True
 
+#Calculo de diferencia entre hora de entrdada y hora de salida
+'''
+  Entradas: Recibe la fecha y hora actual
+  Salidas: Calcula es costo total y saca horas y minutos diferencia
+  Restricciones: NE
+'''
+def diferencia_horas():
+    global hora_fin
+    global hora_inicio
+    
+    format_hora= "%H:%M:%S"
+    hora_i= datetime.strptime(hora_inicio, format_hora) #tipo date time, tipo time
+    hora_f= datetime.strptime(hora_fin, format_hora)
+
+    
+    total_horas= hora_f - hora_i
+    l_total_horas=str(total_horas).split(":")
+    
+    total_hora= l_total_horas[0]
+    total_min= l_total_horas[1]
+    total_seg=l_total_horas[2]
+    return total_hora, total_min, total_seg
+
+
 def mensaje_gane():
-    pass
+    ventana_gane=tk.Tk()
+    ventana_gane.geometry("400x200")
+    ventana_gane.title("FUTOSHIKI- Felicidades")
+    ventana_gane.config(bg="#F4D6CC")
+
+    nombre= tk.Label(ventana_gane, text= "Ha completado la partida exitosamente", font= "Corbel 14 bold ", bg="#F4CFB1")
+    nombre.place(x=5, y=5)
+    
+    regresar_b= tk.Button(ventana_gane, text= "Regresar al menu principal",font= "Corbel 12", bg="#F4CFB1", command= lambda:regresar_4(ventana_gane, 0))
+    regresar_b.place(x=75, y=130)
+
+def regresar_4(ventana, cod):
+    global ventana_a_jugar
+    
+    if cod == 0:
+        regresar(ventana_a_jugar)
+
+    ventana.destroy()
 
 #Funciones que trabajan con la pila de operaciones-----------------------------
 '''
@@ -2562,24 +2671,6 @@ def desapila():
     except:
         matriz_juego[elemento2[1]][elemento2[2]]=int(0)
         
-    #return
-    
-
-            
-'''
-def timer(horas, minutos, segundos):
-    while segundos != 0 or minutos !=0 or horas != 0:
-        if segundos == 0 and minutos != 0:
-            minutos-=1
-            segundos+=59
-        elif minutos == 0 and horas !=0:
-            horas-=1
-            minutos+=59
-        else:
-            segundos-=1
-        print(minutos, segundos)
-    
-'''
 #___________________________________________________________VENTANA_ACERCA_DE________________________________________________________________________
 '''
 Funcion para acerda de
