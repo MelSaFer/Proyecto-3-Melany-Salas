@@ -67,7 +67,6 @@ def asigna_datos(nombre_archivo):
     while True:
         try:
             lectura=pickle.load(arc)
-            #print(lectura)
             return lectura
         except:
             break
@@ -86,11 +85,10 @@ def graba_top10():
     if nivel_dificultad == 1:
         if top10[0] != []:
             for i, jugador in enumerate(top10[0]):
-                print(jugador[1], datos[1])
                 if jugador[1] > datos[1]:
                     top10[0].insert(i, datos)
                     try:
-                        top10[0]=top10[0][:9]
+                        top10[0]=top10[0][:10]
                     except:
                         pass
                     graba_datos2(top10,"futoshiki2021top10.dat")
@@ -98,7 +96,7 @@ def graba_top10():
         if datos not in top10[0]:
             top10[0].append(datos)
         try:
-            top10[0]=top10[0][:9]
+            top10[0]=top10[0][:10]
         except:
             pass
         graba_datos2(top10,"futoshiki2021top10.dat")
@@ -106,12 +104,11 @@ def graba_top10():
     elif nivel_dificultad == 2:
         if top10[2] != []:
             for i, jugador in enumerate(top10[1]):
-                print(jugador[1], datos[1])
                 if jugador[1] > datos[1]:
 
                     top10[1].insert(i, datos)
                     try:
-                        top10[1]=top10[0][:9]
+                        top10[1]=top10[0][:10]
                     except:
                         pass
                     graba_datos2(top10,"futoshiki2021top10.dat")
@@ -119,7 +116,7 @@ def graba_top10():
         if datos not in top10[1]:
             top10[1].append(datos)
         try:
-            top10[1]=top10[0][:9]
+            top10[1]=top10[0][:10]
         except:
             pass
         graba_datos2(top10,"futoshiki2021top10.dat")
@@ -131,7 +128,7 @@ def graba_top10():
                 if jugador[1] > datos[1]:
                     top10[2].insert(i, datos)
                     try:
-                        top10[2]=top10[2][:9]
+                        top10[2]=top10[2][:10]
                     except:
                         pass
                     graba_datos2(top10,"futoshiki2021top10.dat")
@@ -139,13 +136,12 @@ def graba_top10():
         if datos not in top10[2]:
             top10[2].append(datos)
         try:
-            top10[2]=top10[2][:9]
+            top10[2]=top10[2][:10]
         except:
             pass
         graba_datos2(top10,"futoshiki2021top10.dat")
 
 def abre_pdf():
-    #import os
     archivo= "MelanySalas_Manual_de_usuario_futoshiki.pdf"
     os.system(archivo)
         
@@ -188,6 +184,7 @@ def a_jugar():
     ventana_a_jugar.geometry("600x600")
     ventana_a_jugar.title("FUTOSHIKI- A jugar")
     ventana_a_jugar.config(bg="#F4D6CC")
+    ventana_a_jugar.iconbitmap("joystick_game_3819.ico")
     numero= tk.IntVar
 
     #Titulo
@@ -446,7 +443,6 @@ def asigna_casilla(cod):
     if numero != 1 and numero != 2 and numero != 3 and numero != 4 and numero != 5:
         showMensaje("No ha seleccionado un numero")
         return
-    #print(matriz_juego)
 
     if cod == 0:
         f=False
@@ -502,7 +498,6 @@ def asigna_casilla(cod):
         matriz_juego[1][0]= numero
         
         for i,num in enumerate(matriz_juego[1]):
-            #print(matriz_juego[1],num,1, numero)
             
             if numero == int(matriz_juego[0][0]) or numero == int(matriz_juego[2][0]) or numero == int(matriz_juego[3][0]) or numero == int(matriz_juego[4][0]):
                 showMensaje("El numero " + str(numero) + " ya esta en la columna")
@@ -537,7 +532,6 @@ def asigna_casilla(cod):
             f = False
             
         if gane() == True:
-            #showMensaje("Ganó")
             mensaje_gane()
             
       
@@ -583,7 +577,6 @@ def asigna_casilla(cod):
             f= False
             
         if gane() == True:
-            #showMensaje("Ganó")
             mensaje_gane()
    
     elif cod == 3:
@@ -628,7 +621,6 @@ def asigna_casilla(cod):
             f=False
         
         if gane() == True:
-            #showMensaje("Ganó")
             mensaje_gane()
         
 
@@ -673,7 +665,6 @@ def asigna_casilla(cod):
             f=False
         
         if gane() == True:
-            #showMensaje("Ganó")
             mensaje_gane()
           
 #_________________________________________________________________________________________________________________________________________________
@@ -719,7 +710,6 @@ def asigna_casilla(cod):
             f= False
             
         if gane() == True:
-            #showMensaje("Ganó")
             mensaje_gane()
 
         
@@ -763,7 +753,6 @@ def asigna_casilla(cod):
             f= False
 
         if gane() == True:
-            #showMensaje("Ganó")
             mensaje_gane()
 
     
@@ -808,7 +797,6 @@ def asigna_casilla(cod):
             f=False
 
         if gane() == True:
-            #showMensaje("Ganó")
             mensaje_gane()
         
 
@@ -854,7 +842,6 @@ def asigna_casilla(cod):
             f= False
             
         if gane() == True:
-            #showMensaje("Ganó")
             mensaje_gane()
 
         
@@ -898,7 +885,6 @@ def asigna_casilla(cod):
             matriz_0_1[4][1]=0
             f=False
         if gane() == True:
-            #showMensaje("Ganó")
             mensaje_gane()
 
 #_________________________________________________________________________________________________________________________________________________
@@ -944,7 +930,6 @@ def asigna_casilla(cod):
             f=False
 
         if gane() == True:
-            #showMensaje("Ganó")
             mensaje_gane()
     
     elif cod == 11:
@@ -988,10 +973,8 @@ def asigna_casilla(cod):
             showMensaje("El numero " + str(numero)+ " no cumple con la restriccion")
             matriz_0_1[1][2]=0
             f= False
-            #print("es aqui 2")
 
         if gane() == True:
-            #showMensaje("Ganó")
             mensaje_gane()
     
     elif cod == 12:
@@ -1036,7 +1019,6 @@ def asigna_casilla(cod):
             f= False
             
         if gane() == True:
-            #showMensaje("Ganó")
             mensaje_gane()
 
             
@@ -1082,7 +1064,6 @@ def asigna_casilla(cod):
             f=False
 
         if gane() == True:
-            #showMensaje("Ganó")
             mensaje_gane()
     
     elif cod == 14:
@@ -1126,7 +1107,6 @@ def asigna_casilla(cod):
             f=False
 
         if gane() == True:
-            #showMensaje("Ganó")
             mensaje_gane()
 
 #_________________________________________________________________________________________________________________________________________________
@@ -1171,7 +1151,6 @@ def asigna_casilla(cod):
             f=False
 
         if gane() == True:
-            #showMensaje("Ganó")
             mensaje_gane()
 
         
@@ -1215,7 +1194,6 @@ def asigna_casilla(cod):
             f=False
 
         if gane() == True:
-            #showMensaje("Ganó")
             mensaje_gane()
             
     
@@ -1259,7 +1237,6 @@ def asigna_casilla(cod):
             f=False
 
         if gane() == True:
-            #showMensaje("Ganó")
             mensaje_gane()
 
     
@@ -1303,7 +1280,6 @@ def asigna_casilla(cod):
             f=False 
 
         if gane() == True:
-            #showMensaje("Ganó")
             mensaje_gane()
 
     
@@ -1347,7 +1323,6 @@ def asigna_casilla(cod):
             f=False
 
         if gane() == True:
-            #showMensaje("Ganó")
             mensaje_gane()
 
 #________________________________________________________________________________________________________________________________________________
@@ -1392,7 +1367,6 @@ def asigna_casilla(cod):
             f=False
 
         if gane() == True:
-            #showMensaje("Ganó")
             mensaje_gane()
 
 
@@ -1481,7 +1455,6 @@ def asigna_casilla(cod):
             f=False
 
         if gane() == True:
-            #showMensaje("Ganó")
             mensaje_gane()
 
 
@@ -1569,7 +1542,6 @@ def asigna_casilla(cod):
             f=False
 
         if gane() == True:
-            #showMensaje("Ganó")
             mensaje_gane()
 
 def regresar_pr(ventana, cod):
@@ -1584,6 +1556,7 @@ def termina_juego():
     ventana_tj.geometry("350x100")
     ventana_tj.title("FUTOSHIKI- Terminar el juego")
     ventana_tj.config(bg="#F4D6CC")
+    ventana_tj.iconbitmap("joystick_game_3819.ico")
     
     nombre= tk.Label(ventana_tj, text= "¿Esta seguro de que desea terminar el juego?", font= "Corbel 12 bold ", bg="#F4CFB1")
     nombre.place(x=5, y=5)
@@ -1609,6 +1582,7 @@ def borrar_juego(nombre_jugador):
     ventana_bj.geometry("350x100")
     ventana_bj.title("FUTOSHIKI- Terminar el juego")
     ventana_bj.config(bg="#F4D6CC")
+    ventana_bj.iconbitmap("joystick_game_3819.ico")
     
     nombre= tk.Label(ventana_bj, text= "¿Esta seguro de que desa borrar el juego?", font= "Corbel 12 bold ", bg="#F4CFB1")
     nombre.place(x=5, y=5)
@@ -1648,14 +1622,21 @@ def carga_juego(nombre_jugador):
     global hora_timer
     global seg_timer
 
+    global min_timer_o
+    global seg_timer_o
+    global hora_timer_o
+
     lista_pila= []
     arc_jugadas=asigna_datos("futoshiki2021partidas.dat")
-    #print(arc_jugadas)
 
     if flag_cargar_juego == False:
         nombre_jugador=str(nombre_jugador)
         largo = len(nombre_jugador)
         num=escoge_partida()
+        min_timer= min_timer_o
+        hora_timer= hora_timer_o
+        seg_timer= seg_timer_o
+        
         
         if len(nombre_jugador) < 1 or len(nombre_jugador) > 20:
             showMensaje("Nombre no es valido")
@@ -1696,7 +1677,6 @@ def carga_juego(nombre_jugador):
         crea_matriz()
         if ind_escoge_par == 1:
             hora_inicio= obtener_hora()
-        print(hora_inicio)
     
     if reloj_o_time == 1:
         seg_actual.after(1000, lambda:funcion_time())
@@ -1747,7 +1727,6 @@ def carga_juego(nombre_jugador):
 
     for validacion in partida:
         if validacion[0] not in "1 2 3 4 5":
-            #print(validacion)
             validacion1=validacion[1]
             validacion2=validacion[2]
             
@@ -1773,7 +1752,6 @@ def carga_juego(nombre_jugador):
                     validacion2=10
 
                 signo=tk.Label(ventana_a_jugar, text= validacion[0],font= "bold", bg="#F4D6CC",).grid(row=validacion1, column=validacion2)
-                #print("Val1", validacion1,validacion2)
     
             if validacion[0] == ">" or validacion[0] == "<":
                 if validacion2 == 0:
@@ -1803,7 +1781,6 @@ def carga_juego(nombre_jugador):
             matriz_juego[validacion[1]][validacion[2]]=str(validacion[0])
             matriz_0_1[validacion[1]][validacion[2]]=1
             
-    #print(matriz_juego)
 
     if matriz_juego[0][0] !=0:
         f0c0=tk.Button(ventana_a_jugar, text= matriz_juego[0][0], width= 5, height= 1, bg="#F4B860", command=lambda:asigna_casilla(0)).grid(row=4, column=2)
@@ -1961,6 +1938,7 @@ def configuracion():
     ventana_configuracion.geometry("450x400")
     ventana_configuracion.title("FUTOSHIKI- A jugar")
     ventana_configuracion.config(bg="#F4D6CC")
+    ventana_configuracion.iconbitmap("joystick_game_3819.ico")
 
     name_label= tk.Label(ventana_configuracion, text= "FUTOSHIKI", font= "Corbel 22 bold", height= 1, width= 15, bg= "#C83E4D")
     name_label.grid(row=0, column=1)
@@ -2051,7 +2029,6 @@ def timer_reloj():
     global min_timer
     global hora_timer
     global seg_timer
-    #print(min_timer,hora_timer, seg_timer)
 
     while seg_timer != 0 or min_timer !=0 or hora_timer != 0:
         if seg_timer == 0 and min_timer != 0:
@@ -2061,7 +2038,6 @@ def timer_reloj():
             hora_timer-=1
             min_timer+=59
         seg_timer-=1
-
         break
     hora_actual= tk.Label(ventana_a_jugar, text= hora_timer,width= 9,height= 2,font= "Corbel 12", bg="#F4C796").place(x=10, y=475)
     min_actual= tk.Label(ventana_a_jugar, text= min_timer,width= 9,height= 2,font= "Corbel 12", bg="#F4C796").place(x=95, y=475)
@@ -2080,6 +2056,7 @@ def fin_time():
     ventana_q=tk.Tk()
     ventana_q.geometry("400x200")
     ventana_q.title("FUTOSHIKI- Tiempo del cronometro")
+    ventana_q.iconbitmap("joystick_game_3819.ico")
     
     ventana_q.config(bg="#F4D6CC")
 
@@ -2130,14 +2107,10 @@ def guarda_juego():
     global matriz_0_1
     global nombre_j
 
-    #juego_guardado= {m_juego:matriz_juego,par:partida, niv_dificultad: nivel_dificultad,reloj: reloj_o_time, l_num: lado_num}
     juego_guardado= [matriz_juego, matriz_0_1 ,nivel_dificultad, reloj_o_time, lado_num, hora_inicio, partida, nombre_j]
     if reloj_o_time==3:
         juego_guardado.append([hora_timer, min_timer,seg_timer])
-        
-    print(juego_guardado)
     
-
     arc= open("futoshiki2021juegoactual.dat" , "wb")
     pickle.dump(juego_guardado, arc)
     arc.close
@@ -2165,7 +2138,6 @@ def carga_partida():
     juego_guardado=pickle.load(arc)
     arc.close
 
-    #print(juego_guardado)
     matriz_juego= juego_guardado[0]
     matriz_0_1= juego_guardado[1]
     nivel_dificultad= juego_guardado[2]
@@ -2177,11 +2149,6 @@ def carga_partida():
     a_jugar()
     nombre_jugador1= tk.Label(ventana_a_jugar,text= nombre_j, width= 25, font= "Corbel 12 ", bg="#F4CFB1")
     nombre_jugador1.place(x=150, y=60)
-    if reloj_o_time == 3:
-        #print(juego_guardado[8])
-        hora_timer= juego_guardado[8][0]
-        min_timer= juego_guardado[8][1]
-        seg_timer= juego_guardado[8][2]
 
        
     inicia_juego_l= tk.Button(ventana_a_jugar, text= "Iniciar juego",font= "Corbel 12",width= 11, bg="#DB504A")
@@ -2399,7 +2366,6 @@ def carga_partida():
     
     for validacion in partida:
         if validacion[0] not in "1 2 3 4 5":
-            print(validacion)
             validacion1=validacion[1]
             validacion2=validacion[2]
             
@@ -2425,7 +2391,6 @@ def carga_partida():
                     validacion2=10
 
                 signo=tk.Label(ventana_a_jugar, text= validacion[0],font= "bold", bg="#F4D6CC",).grid(row=validacion1, column=validacion2)
-                #print("Val1", validacion1,validacion2)
     
             if validacion[0] == ">" or validacion[0] == "<":
                 if validacion2 == 0:
@@ -2494,9 +2459,6 @@ def escoge_partida():
   Restricciones: NE
 '''
 def obtener_hora():
-    #global hora_inicio
-
-    #global hora_fin
     hora= time.strftime("%H")
     minutos= time.strftime("%M")
     seg= time.strftime("%S")
@@ -2546,7 +2508,6 @@ def valida_mayor2(ind_fila, ind_columna):
         elif validacion[1]+1 == ind_fila:
             if validacion[2] == ind_columna:
                 try:
-                    #print(matriz_juego[ind_fila][ind_columna])
                     if matriz_juego[ind_fila][ind_columna] == 0 or int(matriz_juego[ind_fila-1][ind_columna]) == 0:
                         return True
                     
@@ -2570,9 +2531,6 @@ def valida_mayor1(ind_fila, ind_columna):
     for validacion in partida:
         if validacion[1] == ind_fila:
             if validacion[2] == ind_columna:
-                #print("1", validacion)
-                #print(matriz_juego)
-                #print(matriz_juego[ind_fila][ind_columna], matriz_juego[ind_fila][ind_columna+1])
                 try:
                     if matriz_juego[ind_fila][ind_columna] == 0:
                         break
@@ -2602,7 +2560,6 @@ def valida_mayor1(ind_fila, ind_columna):
                             if int(matriz_juego[ind_fila][ind_columna]) < int(matriz_juego[ind_fila+1][ind_columna]):
                                 return False
                 except:
-                    print("Error 3")
                     break
     return True    
 
@@ -2615,8 +2572,6 @@ def asigna_nivel(num):
     elif num == 3:
         nivel_dificultad=3
 
-    print(nivel_dificultad)
-
 def cambia_op_time(num):
     global reloj_o_time
     if num == 1:
@@ -2626,7 +2581,6 @@ def cambia_op_time(num):
     elif num == 3:
         reloj_o_time= 3
         cambio_valor_cr()
-    print(reloj_o_time)
 
 
 def cambio_valor_cr():
@@ -2635,6 +2589,7 @@ def cambio_valor_cr():
     ventana_cr.geometry("400x200")
     ventana_cr.title("FUTOSHIKI- Tiempo del cronometro")
     ventana_cr.config(bg="#F4D6CC")
+    ventana_cr.iconbitmap("joystick_game_3819.ico")
 
     nombre= tk.Label(ventana_cr, text= "Tiempo del cronometro", font= "Corbel 12 bold ", bg="#F4CFB1")
     nombre.place(x=110, y=5)
@@ -2708,7 +2663,6 @@ def cambia_lado_num(num):
         lado_num=1
     else:
         lado_num=0
-    print(lado_num)
 
 #Funcion para saber si se gana o no
 def gane():
@@ -2753,6 +2707,7 @@ def mensaje_gane():
     ventana_gane.geometry("400x200")
     ventana_gane.title("FUTOSHIKI- Felicidades")
     ventana_gane.config(bg="#F4D6CC")
+    ventana_gane.iconbitmap("joystick_game_3819.ico")
     graba_top10()
 
     nombre= tk.Label(ventana_gane, text= "Ha completado la partida exitosamente", font= "Corbel 14 bold ", bg="#F4CFB1")
@@ -2824,6 +2779,8 @@ def acerca_de():
     ventana_configuracion.geometry("300x300")
     ventana_configuracion.title("FUTOSHIKI- Acerca de")
     ventana_configuracion.config(bg="#F4D6CC")
+    ventana_configuracion.iconbitmap("joystick_game_3819.ico")
+    
 
     name_label= tk.Label(ventana_configuracion, text= "FUTOSHIKI", font= "Corbel 22 bold", height= 1, width= 15, bg= "#C83E4D")
     name_label.grid(row=0, column=0)
@@ -2854,12 +2811,12 @@ def crea_matriz():
     matriz_juego=[]
     matriz_0_1=[]
     cont_l=0
-    #cont0=0
+
     while cont_l < 5:
         matriz_juego.append([0,0,0,0,0])
         matriz_0_1.append([0,0,0,0,0])
         cont_l+=1
-    #print(juego_lista)
+
     
 #______________________________________________________________________
 '''
@@ -2870,54 +2827,57 @@ def ventana_top10():
     global top10
     
     ventana_top=tk.Tk()
-    ventana_top.geometry("400x800")
+    ventana_top.geometry("510x400")
     ventana_top.title("Top 10")
     ventana_top.config(bg="#F4D6CC")
+    ventana_top.iconbitmap("joystick_game_3819.ico")
 
     top10= asigna_datos("futoshiki2021top10.dat")
 
-    name_label= tk.Label(ventana_top, text= "FUTOSHIKI", font= "Corbel 22 bold", height= 1, width= 15, bg= "#C83E4D").place(x=100, y=5)
+
+    name_label= tk.Label(ventana_top, text= "FUTOSHIKI", font= "Corbel 22 bold", height= 1, width= 15, bg= "#C83E4D").place(x=150, y=5)
     d_label= tk.Label(ventana_top, text= "", font= "Corbel 12", height= 3, bg= "#F4D6CC")
     d_label.grid(row=0, column=0)
+    
+    d_label= tk.Label(ventana_top, text= "", height= 1, width= 15, bg= "#F4D6CC")
+    d_label.grid(row=1, column=0)
 
     d_label= tk.Label(ventana_top, text= "Nivel Dificil", font= "Corbel 13 bold", height= 1, width= 15, bg= "#F4CFB1")
-    d_label.grid(row=1, column=0)
+    d_label.place(x=20, y=60)
 
     
     r=2
     for i, jugador in enumerate(top10[2]):
-        d_label= tk.Label(ventana_top, text= str(i+1)+ ". " + str(jugador[0]), font= "Corbel 14", height= 1, bg= "#F4D6CC")
-        d_label.grid(row=r, column=1)
+        d_label= tk.Label(ventana_top, text= str(i+1)+ ". " + str(jugador[0]), font= "Corbel 13", bg= "#F4D6CC")
+        d_label.grid(row=r, column=0)
 
-        d_label= tk.Label(ventana_top, text= str(jugador[1][0]) +":" + str(jugador[1][1]) + ":" + str(jugador[1][2]), font= "12", height= 1, bg= "#F4D6CC")
-        d_label.grid(row=r, column=2)
+        d_label= tk.Label(ventana_top, text= str(jugador[1][0]) +":" + str(jugador[1][1]) + ":" + str(jugador[1][2]), font= "11", height= 1, bg= "#F4D6CC")
+        d_label.grid(row=r, column=1)
         r+=1
 
-    i_label= tk.Label(ventana_top, text= "Nivel Intermedio", font= "Corbel 13 bold", height= 1, width= 15, bg= "#F4CFB1")
-    i_label.grid(row=12, column=0)
+    i_label= tk.Label(ventana_top, text= "Nivel Intermedio", font= "Corbel 13 bold", width= 16, bg= "#F4CFB1")
+    i_label.place(x=175, y=60)
 
-    r=13
+    r=2
     for i, jugador in enumerate(top10[1]):
-        d_label= tk.Label(ventana_top, text= str(i+1)+ ". " + str(jugador[0]), font= "Corbel 14", height= 1, width= 8, bg= "#F4D6CC")
-        d_label.grid(row=r, column=1)
-
-        d_label= tk.Label(ventana_top, text= str(jugador[1][0]) +":" + str(jugador[1][1]) + ":" + str(jugador[1][2]), font= "12", height= 1, width= 8, bg= "#F4D6CC")
+        d_label= tk.Label(ventana_top, text= str(i+1)+ ". " + str(jugador[0]), font= "Corbel 13", width= 8, bg= "#F4D6CC")
         d_label.grid(row=r, column=2)
+
+        d_label= tk.Label(ventana_top, text= str(jugador[1][0]) +":" + str(jugador[1][1]) + ":" + str(jugador[1][2]), font= "11", width= 8, bg= "#F4D6CC")
+        d_label.grid(row=r, column=3)
         r+=1
 
     f_label= tk.Label(ventana_top, text= "Nivel Facil", font= "Corbel 13 bold", height= 1, width= 15, bg= "#F4CFB1")
-    f_label.grid(row=23, column=0)
+    f_label.place(x=335, y=60)
 
-    r=23
+    r=2
     for i, jugador in enumerate(top10[0]):
-        d_label= tk.Label(ventana_top, text= str(i+1)+ ". " + str(jugador[0]), font= "Corbel 14", height= 1, width=8, bg= "#F4D6CC")
-        d_label.grid(row=r, column=1)
+        d_label= tk.Label(ventana_top, text= str(i+1)+ ". " + str(jugador[0]), font= "Corbel 13", width=8, bg= "#F4D6CC")
+        d_label.grid(row=r, column=4)
 
-        d_label= tk.Label(ventana_top, text= str(jugador[1][0]) +":" + str(jugador[1][1]) + ":" + str(jugador[1][2]) , font= "12", height= 1, width= 8, bg= "#F4D6CC")
-        d_label.grid(row=r, column=2)
+        d_label= tk.Label(ventana_top, text= str(jugador[1][0]) +":" + str(jugador[1][1]) + ":" + str(jugador[1][2]) , font= "11", height= 1, width= 8, bg= "#F4D6CC")
+        d_label.grid(row=r, column=5)
         r+=1
-
-    
     
     
     
@@ -2956,7 +2916,6 @@ reloj_o_time=1
 
 
 
-#print(arc_jugadas)
 '''
 Ventana principal
 '''
@@ -2965,6 +2924,7 @@ ventana_principal= tk.Tk()
 ventana_principal.geometry("500x300")
 ventana_principal.title("Ventana principal")
 ventana_principal.config(bg="#F4D6CC")
+ventana_principal.iconbitmap("joystick_game_3819.ico")
 
 #Labels
 name_label= tk.Label(ventana_principal, text= "FUTOSHIKI", font= "Corbel 22 bold", height= 1, width= 15, bg= "#C83E4D")
