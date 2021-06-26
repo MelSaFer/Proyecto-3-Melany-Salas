@@ -12,6 +12,7 @@ import time
 import pickle
 from tkinter import messagebox
 from datetime import datetime
+import os
 
 #----------------------------------Funciones--------------------------
 #__________________________________________
@@ -24,7 +25,7 @@ def showMensaje(mensaje):
 #__________________________________________
 '''
 Funcion para grabar datos
-Entradas: Datod y nombre del archivo
+Entradas: Datos y nombre del archivo
 Salidas: Agrega los datos al archivo
 '''
 def graba_datos(datos, nombre_archivo):
@@ -32,6 +33,11 @@ def graba_datos(datos, nombre_archivo):
     pickle.dump(datos, arc)
     arc.close
     print("Se grabo el archivo")
+
+def graba_datos2(datos, nombre_archivo):
+    arc= open(nombre_archivo, "wb")
+    pickle.dump(datos, arc)
+    arc.close
 #__________________________________________
 '''
 Funcion para leer datos de un archivo
@@ -66,6 +72,83 @@ def asigna_datos(nombre_archivo):
         except:
             break
     arc.close
+
+
+def graba_top10():
+    global top10
+    global nivel_dificultad
+    global diferencia_t
+    global nombre_j
+    
+    top10= asigna_datos("futoshiki2021top10.dat")
+    datos=(nombre_j,diferencia_t )
+    
+    if nivel_dificultad == 1:
+        if top10[0] != []:
+            for i, jugador in enumerate(top10[0]):
+                print(jugador[1], datos[1])
+                if jugador[1] > datos[1]:
+                    top10[0].insert(i, datos)
+                    try:
+                        top10[0]=top10[0][:9]
+                    except:
+                        pass
+                    graba_datos2(top10,"futoshiki2021top10.dat")
+                    return
+        if datos not in top10[0]:
+            top10[0].append(datos)
+        try:
+            top10[0]=top10[0][:9]
+        except:
+            pass
+        graba_datos2(top10,"futoshiki2021top10.dat")
+        
+    elif nivel_dificultad == 2:
+        if top10[2] != []:
+            for i, jugador in enumerate(top10[1]):
+                print(jugador[1], datos[1])
+                if jugador[1] > datos[1]:
+
+                    top10[1].insert(i, datos)
+                    try:
+                        top10[1]=top10[0][:9]
+                    except:
+                        pass
+                    graba_datos2(top10,"futoshiki2021top10.dat")
+                    return
+        if datos not in top10[1]:
+            top10[1].append(datos)
+        try:
+            top10[1]=top10[0][:9]
+        except:
+            pass
+        graba_datos2(top10,"futoshiki2021top10.dat")
+        
+        
+    elif nivel_dificultad == 3:
+        if top10[2] != []:
+            for i, jugador in enumerate(top10[2]):
+                if jugador[1] > datos[1]:
+                    top10[2].insert(i, datos)
+                    try:
+                        top10[2]=top10[2][:9]
+                    except:
+                        pass
+                    graba_datos2(top10,"futoshiki2021top10.dat")
+                    return
+        if datos not in top10[2]:
+            top10[2].append(datos)
+        try:
+            top10[2]=top10[2][:9]
+        except:
+            pass
+        graba_datos2(top10,"futoshiki2021top10.dat")
+
+def abre_pdf():
+    #import os
+    archivo= "MelanySalas_Manual_de_usuario_futoshiki.pdf"
+    os.system(archivo)
+        
    
 #__________________________________________
 '''
@@ -102,7 +185,7 @@ def a_jugar():
     flag1= 1
     ventana_principal.state(newstate="withdraw")
     ventana_a_jugar= tk.Tk()
-    ventana_a_jugar.geometry("800x800")
+    ventana_a_jugar.geometry("600x600")
     ventana_a_jugar.title("FUTOSHIKI- A jugar")
     ventana_a_jugar.config(bg="#F4D6CC")
     numero= tk.IntVar
@@ -242,22 +325,22 @@ def a_jugar():
     #botona= tk.Button(ventana_entrada_v, text= "Aceptar", command= lambda: agrega_placa(fecha_hora_entrada, placa.get(),primer_esp, ventana_entrada_v))
 
     #Boton Borrar jugada
-    borra_jugada_b= tk.Button(ventana_a_jugar, text= "Borrar jugada",font= "Corbel 12",width= 11, bg="#658E9C", command= desapila).place(x=150, y=400)
-
+    borra_jugada_b= tk.Button(ventana_a_jugar, text= "Borrar jugada",font= "Corbel 12",width= 11, bg="#658E9C").place(x=150, y=400)
+    
     #Boton Termina juego
-    termina_juego_b= tk.Button(ventana_a_jugar, text= "Terminar juego",font= "Corbel 12",width= 11, bg="#6D8A96", command= termina_juego).place(x=290, y=400)
+    termina_juego_b= tk.Button(ventana_a_jugar, text= "Terminar juego",font= "Corbel 12",width= 11, bg="#6D8A96").place(x=290, y=400)
 
     #Boton Top 10
-    top10_b= tk.Button(ventana_a_jugar, text= "Top 10",font= "Corbel 12",width= 11, bg="#DB504A").place(x=440, y=400)
+    top10_b= tk.Button(ventana_a_jugar, text= "Top 10",font= "Corbel 12",width= 11, bg="#DB504A", command= ventana_top10).place(x=440, y=400)
 
     #Boton Guarda juego
-    guarda_juego_b= tk.Button(ventana_a_jugar, text= "Guardar juego",font= "Corbel 12",width= 11, bg="#7A6174", command= guarda_juego).place(x=290, y=500)
+    guarda_juego_b= tk.Button(ventana_a_jugar, text= "Guardar juego",font= "Corbel 12",width= 11, bg="#7A6174").place(x=290, y=500)
 
     #Boton Carga juego
     cargar_juego_b= tk.Button(ventana_a_jugar, text= "Cargar juego",font= "Corbel 12",width= 11, bg="#7A6174", command=carga_partida).place(x=440, y=500)
     
     #borrar_juego()
-    borra_juego_b= tk.Button(ventana_a_jugar, text= "Borrar juego",font= "Corbel 12",width= 11, bg="#6D8A96", command= lambda:borrar_juego(nombre_jugador1.get())).place(x=355, y=450)
+    borra_juego_b= tk.Button(ventana_a_jugar, text= "Borrar juego",font= "Corbel 12",width= 11, bg="#6D8A96").place(x=355, y=450)
 
     #Etiquetas reloj
     if reloj_o_time != 2:
@@ -363,6 +446,7 @@ def asigna_casilla(cod):
     if numero != 1 and numero != 2 and numero != 3 and numero != 4 and numero != 5:
         showMensaje("No ha seleccionado un numero")
         return
+    #print(matriz_juego)
 
     if cod == 0:
         f=False
@@ -735,7 +819,6 @@ def asigna_casilla(cod):
             return
         apila(matriz_juego[3][1], 3, 1,"#F4B860", 8, 10, 4)     
         matriz_juego[3][1]= numero
-        print(numero)
         
         for i,num in enumerate(matriz_juego[3]):
             if numero == int(matriz_juego[0][1]) or numero == int(matriz_juego[1][1]) or numero == int(matriz_juego[2][1]) or numero == int(matriz_juego[4][1]):
@@ -1181,7 +1264,7 @@ def asigna_casilla(cod):
 
     
     elif cod == 18:
-        if isinstance(matriz_juego[2][4],str):
+        if isinstance(matriz_juego[3][3],str):
             showMensaje("JUGADA NO ES VÁLIDA PORQUE ESTE ES UN DÍGITO FIJO")
             return
         apila(matriz_juego[3][3], 3, 3,"#F4B860", 18, 10, 8)
@@ -1577,9 +1660,29 @@ def carga_juego(nombre_jugador):
         if len(nombre_jugador) < 1 or len(nombre_jugador) > 20:
             showMensaje("Nombre no es valido")
             return
+        if valida_nombre(nombre_jugador)== False:
+            showMensaje("Nombre ya se encuentra en el Top10")
+            return
         
         nombre_j=nombre_jugador
-       # partida1=arc_jugadas[num]
+       
+        inicia_juego_l= tk.Button(ventana_a_jugar, text= "Iniciar juego",font= "Corbel 12",width= 11, bg="#DB504A")
+        inicia_juego_l.place(x=20, y=400)
+        
+        borra_jugada_b= tk.Button(ventana_a_jugar, text= "Borrar jugada",font= "Corbel 12",width= 11, bg="#658E9C", command= desapila)
+        borra_jugada_b.place(x=150, y=400)
+
+        termina_juego_b= tk.Button(ventana_a_jugar, text= "Terminar juego",font= "Corbel 12",width= 11, bg="#6D8A96", command= termina_juego)
+        termina_juego_b.place(x=290, y=400)
+
+        borra_juego_b= tk.Button(ventana_a_jugar, text= "Borrar juego",font= "Corbel 12",width= 11, bg="#6D8A96", command= lambda:borrar_juego(nombre_j))
+        borra_juego_b.place(x=355, y=450)
+
+        cargar_juego_b= tk.Button(ventana_a_jugar, text= "Cargar juego",font= "Corbel 12",width= 11, bg="#7A6174").place(x=440, y=500)
+
+        guarda_juego_b= tk.Button(ventana_a_jugar, text= "Guardar juego",font= "Corbel 12",width= 11, bg="#7A6174", command= guarda_juego)
+        guarda_juego_b.place(x=290, y=500)
+
         
         if nivel_dificultad == 1 and ind_escoge_par == 1:
             partida= arc_jugadas[0][num]
@@ -1855,7 +1958,7 @@ def configuracion():
     
     ventana_principal.state(newstate="withdraw")
     ventana_configuracion= tk.Tk()
-    ventana_configuracion.geometry("600x600")
+    ventana_configuracion.geometry("450x400")
     ventana_configuracion.title("FUTOSHIKI- A jugar")
     ventana_configuracion.config(bg="#F4D6CC")
 
@@ -2053,6 +2156,8 @@ def carga_partida():
     global seg_timer
     global matriz_0_1
     global nombre_j
+
+    
     
     arc= open("futoshiki2021juegoactual.dat", "rb")
     flag_cargar_juego=True
@@ -2060,7 +2165,7 @@ def carga_partida():
     juego_guardado=pickle.load(arc)
     arc.close
 
-    print(juego_guardado)
+    #print(juego_guardado)
     matriz_juego= juego_guardado[0]
     matriz_0_1= juego_guardado[1]
     nivel_dificultad= juego_guardado[2]
@@ -2072,6 +2177,31 @@ def carga_partida():
     a_jugar()
     nombre_jugador1= tk.Label(ventana_a_jugar,text= nombre_j, width= 25, font= "Corbel 12 ", bg="#F4CFB1")
     nombre_jugador1.place(x=150, y=60)
+    if reloj_o_time == 3:
+        #print(juego_guardado[8])
+        hora_timer= juego_guardado[8][0]
+        min_timer= juego_guardado[8][1]
+        seg_timer= juego_guardado[8][2]
+
+       
+    inicia_juego_l= tk.Button(ventana_a_jugar, text= "Iniciar juego",font= "Corbel 12",width= 11, bg="#DB504A")
+    inicia_juego_l.place(x=20, y=400)
+    
+    borra_jugada_b= tk.Button(ventana_a_jugar, text= "Borrar jugada",font= "Corbel 12",width= 11, bg="#658E9C", command= desapila)
+    borra_jugada_b.place(x=150, y=400)
+
+    termina_juego_b= tk.Button(ventana_a_jugar, text= "Terminar juego",font= "Corbel 12",width= 11, bg="#6D8A96", command= termina_juego)
+    termina_juego_b.place(x=290, y=400)
+
+    borra_juego_b= tk.Button(ventana_a_jugar, text= "Borrar juego",font= "Corbel 12",width= 11, bg="#6D8A96", command= lambda:borrar_juego(nombre_j))
+    borra_juego_b.place(x=355, y=450)
+
+    cargar_juego_b= tk.Button(ventana_a_jugar, text= "Cargar juego",font= "Corbel 12",width= 11, bg="#7A6174").place(x=440, y=500)
+
+    guarda_juego_b= tk.Button(ventana_a_jugar, text= "Guardar juego",font= "Corbel 12",width= 11, bg="#7A6174", command= guarda_juego)
+    guarda_juego_b.place(x=290, y=500)
+
+        
 
     if lado_num == 0: #Derecha
         b1= tk.Button(ventana_a_jugar, text= "1", width= 5, bg="#F4CFB1", command=lambda:asigna_value(1)).grid(row=4, column=1)
@@ -2331,11 +2461,13 @@ def carga_partida():
             seg_actual.place(x=180, y=475)
             if reloj_o_time == 1:
                 seg_actual.after(1000, lambda:funcion_time())
-            elif reloj_o_time == 3:
+            if reloj_o_time == 3:
                 min_timer= juego_guardado[8][0]
                 hora_timer= juego_guardado[8][1]
                 seg_timer= juego_guardado[8][2]
                 seg_actual.after(1000, lambda:timer_reloj())
+                
+        
                 
         else:
             hora_label= tk.Label(ventana_a_jugar, text= "",width= 9, font= "Corbel 12", bg="#F4D6CC").place(x=10, y=450)
@@ -2371,6 +2503,17 @@ def obtener_hora():
     hora_actual=(hora+ ":" + minutos + ":" + seg)
     return hora_actual
 
+def valida_nombre(nombre):
+    global top10
+    
+    top10= asigna_datos("futoshiki2021top10.dat")
+    
+    for dificultad in top10:
+        for juego in dificultad:
+            if nombre in juego:
+                return False
+    return True
+     
 
 #________________________________
 '''
@@ -2450,7 +2593,7 @@ def valida_mayor1(ind_fila, ind_columna):
                         elif validacion[0] == "<":
                             if int(matriz_juego[ind_fila][ind_columna+1]) ==0:
                                 break
-                            if int(matriz_juego[ind_fila][ind_columna]) < int(matriz_juego[ind_fila][ind_columna+1]):
+                            if int(matriz_juego[ind_fila][ind_columna]) > int(matriz_juego[ind_fila][ind_columna+1]):
                                 return False
                             
                         elif validacion[0] == "˅":
@@ -2571,12 +2714,13 @@ def cambia_lado_num(num):
 def gane():
     global matriz_0_1
     global hora_fin
+    global diferencia_t
     for fila in matriz_0_1:
         for columna in fila:
             if columna == 0:
                 return
     hora_fin= obtener_hora()
-    diferencia= diferencia_horas()
+    diferencia_t= diferencia_horas()
     
     return True
 
@@ -2609,6 +2753,7 @@ def mensaje_gane():
     ventana_gane.geometry("400x200")
     ventana_gane.title("FUTOSHIKI- Felicidades")
     ventana_gane.config(bg="#F4D6CC")
+    graba_top10()
 
     nombre= tk.Label(ventana_gane, text= "Ha completado la partida exitosamente", font= "Corbel 14 bold ", bg="#F4CFB1")
     nombre.place(x=5, y=5)
@@ -2639,9 +2784,7 @@ def apila(numero, indice_fila, indice_columna,color, codigo, p_row, p_column):
     valor10 = matriz_0_1[indice_fila][indice_columna]
     lista_pila.append((numero, indice_fila, indice_columna,color,codigo,valor10,p_row, p_column))
     return
-
-
-    
+ 
 '''
 POP
 Funcion para desapilar
@@ -2718,7 +2861,66 @@ def crea_matriz():
         cont_l+=1
     #print(juego_lista)
     
+#______________________________________________________________________
+'''
+Ventanaa top 10
+Crea la ventana y despliega el top 10
+'''
+def ventana_top10():
+    global top10
+    
+    ventana_top=tk.Tk()
+    ventana_top.geometry("400x800")
+    ventana_top.title("Top 10")
+    ventana_top.config(bg="#F4D6CC")
 
+    top10= asigna_datos("futoshiki2021top10.dat")
+
+    name_label= tk.Label(ventana_top, text= "FUTOSHIKI", font= "Corbel 22 bold", height= 1, width= 15, bg= "#C83E4D").place(x=100, y=5)
+    d_label= tk.Label(ventana_top, text= "", font= "Corbel 12", height= 3, bg= "#F4D6CC")
+    d_label.grid(row=0, column=0)
+
+    d_label= tk.Label(ventana_top, text= "Nivel Dificil", font= "Corbel 13 bold", height= 1, width= 15, bg= "#F4CFB1")
+    d_label.grid(row=1, column=0)
+
+    
+    r=2
+    for i, jugador in enumerate(top10[2]):
+        d_label= tk.Label(ventana_top, text= str(i+1)+ ". " + str(jugador[0]), font= "Corbel 14", height= 1, bg= "#F4D6CC")
+        d_label.grid(row=r, column=1)
+
+        d_label= tk.Label(ventana_top, text= str(jugador[1][0]) +":" + str(jugador[1][1]) + ":" + str(jugador[1][2]), font= "12", height= 1, bg= "#F4D6CC")
+        d_label.grid(row=r, column=2)
+        r+=1
+
+    i_label= tk.Label(ventana_top, text= "Nivel Intermedio", font= "Corbel 13 bold", height= 1, width= 15, bg= "#F4CFB1")
+    i_label.grid(row=12, column=0)
+
+    r=13
+    for i, jugador in enumerate(top10[1]):
+        d_label= tk.Label(ventana_top, text= str(i+1)+ ". " + str(jugador[0]), font= "Corbel 14", height= 1, width= 8, bg= "#F4D6CC")
+        d_label.grid(row=r, column=1)
+
+        d_label= tk.Label(ventana_top, text= str(jugador[1][0]) +":" + str(jugador[1][1]) + ":" + str(jugador[1][2]), font= "12", height= 1, width= 8, bg= "#F4D6CC")
+        d_label.grid(row=r, column=2)
+        r+=1
+
+    f_label= tk.Label(ventana_top, text= "Nivel Facil", font= "Corbel 13 bold", height= 1, width= 15, bg= "#F4CFB1")
+    f_label.grid(row=23, column=0)
+
+    r=23
+    for i, jugador in enumerate(top10[0]):
+        d_label= tk.Label(ventana_top, text= str(i+1)+ ". " + str(jugador[0]), font= "Corbel 14", height= 1, width=8, bg= "#F4D6CC")
+        d_label.grid(row=r, column=1)
+
+        d_label= tk.Label(ventana_top, text= str(jugador[1][0]) +":" + str(jugador[1][1]) + ":" + str(jugador[1][2]) , font= "12", height= 1, width= 8, bg= "#F4D6CC")
+        d_label.grid(row=r, column=2)
+        r+=1
+
+    
+    
+    
+    
 #-----------------------------Programa-Principal----------------------
 
 #Golabls
@@ -2779,7 +2981,7 @@ a_jugar_b.grid(row=10, column=0)
 configura_b= tk.Button(ventana_principal, text= "Configuracion",font= "Corbel 12", width= 12, bg="#F4CFB1", command= configuracion)
 configura_b.grid(row=11, column=0)
 
-ayuda_b= tk.Button(ventana_principal, text= "Ayuda",font= "Corbel 12", width= 12, bg="#F4CFB1")
+ayuda_b= tk.Button(ventana_principal, text= "Ayuda",font= "Corbel 12", width= 12, bg="#F4CFB1", command= abre_pdf)
 ayuda_b.grid(row=10, column=3)
 
 ayuda_b= tk.Button(ventana_principal, text= "Acerca de",font= "Corbel 12", width= 12, bg="#F4CFB1", command= acerca_de)
