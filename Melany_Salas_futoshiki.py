@@ -1218,14 +1218,14 @@ def asigna_casilla(cod):
                 f3c2=tk.Button(ventana_a_jugar, text= numero, width= 5, height= 1, bg="#C83E4D",command=lambda:asigna_casilla(17)).grid(row=8, column=8)
                 showMensaje("El numero " + str(numero)+ " ya esta en la fila")
                 matriz_0_1[2][3]=0
-                f=True
-                return
+                f=False
+                break
 
             else:
                 f3c2=tk.Button(ventana_a_jugar, text= numero, width= 5, height= 1, bg="#F4B860",command=lambda:asigna_casilla(17)).grid(row=8, column=8)
                 matriz_0_1[2][3]=1
-                f= False
-                break
+                f= True
+              
             
         if valida_mayor1(2, 3) == False and f!= False:
             f3c2=tk.Button(ventana_a_jugar, text= numero, width= 5, height= 1, bg="#C83E4D",command=lambda:asigna_casilla(17)).grid(row=8, column=8)
@@ -1600,11 +1600,14 @@ def borrar_juego(nombre_jugador):
 def regresar_bj(ventana, cod, nombre_jugador):
     global ind_escoge_par
     global ventana_a_jugar
+    global flag_cargar_juego
     if cod == 0:
         pass
     elif cod == 1:
+        #flag_cargar_juego
         ind_escoge_par=0
         carga_juego(nombre_jugador)
+        
     ventana.destroy()
 
 def carga_juego(nombre_jugador):
@@ -1637,7 +1640,7 @@ def carga_juego(nombre_jugador):
         nombre_jugador=str(nombre_jugador)
         largo = len(nombre_jugador)
         num=escoge_partida()
-        if reloj_o_time==3:
+        if reloj_o_time == 3 and ind_escoge_par==1:
             min_timer= min_timer_o
             hora_timer= hora_timer_o
             seg_timer= seg_timer_o
@@ -1685,7 +1688,9 @@ def carga_juego(nombre_jugador):
     
     if reloj_o_time == 1:
         seg_actual.after(1000, lambda:funcion_time())
+        
     elif reloj_o_time == 3:
+        #print(min_timer, seg_timer,hora_timer)
         seg_actual.after(1000, lambda:timer_reloj())
     
     signo0=tk.Label(ventana_a_jugar,text="   ",bg="#F4D6CC").grid(row=4, column=3)
@@ -2421,34 +2426,36 @@ def carga_partida():
                 
                 
                 signo=tk.Label(ventana_a_jugar, text= validacion[0],font="Corbel 13 bold", bg="#F4D6CC",).grid(row=validacion1, column=validacion2)
-        if reloj_o_time != 2:
-            hora_label= tk.Label(ventana_a_jugar, text= "Hora",width= 9, font= "Corbel 12", bg="#DB504A").place(x=10, y=450)
-            min_label= tk.Label(ventana_a_jugar, text= "Minutos",width= 9, font= "Corbel 12 ", bg="#7A6174").place(x=95, y=450)
-            seg_label= tk.Label(ventana_a_jugar, text= "Segundos",width= 9, font= "Corbel 12 ", bg="#6D8A96").place(x=180, y=450)
+    if reloj_o_time != 2:
+        hora_label= tk.Label(ventana_a_jugar, text= "Hora",width= 9, font= "Corbel 12", bg="#DB504A").place(x=10, y=450)
+        min_label= tk.Label(ventana_a_jugar, text= "Minutos",width= 9, font= "Corbel 12 ", bg="#7A6174").place(x=95, y=450)
+        seg_label= tk.Label(ventana_a_jugar, text= "Segundos",width= 9, font= "Corbel 12 ", bg="#6D8A96").place(x=180, y=450)
 
-            hora_actual= tk.Label(ventana_a_jugar, text= "0",width= 9,height= 2,font= "Corbel 12", bg="#F4C796").place(x=10, y=475)
-            min_actual= tk.Label(ventana_a_jugar, text= "0",width= 9,height= 2,font= "Corbel 12", bg="#F4C796").place(x=95, y=475)
-            seg_actual= tk.Label(ventana_a_jugar, text= "0",width= 9,height= 2,font= "Corbel 12", bg="#F4C796")
-            seg_actual.place(x=180, y=475)
-            if reloj_o_time == 1:
-                seg_actual.after(1000, lambda:funcion_time())
-            if reloj_o_time == 3:
-                min_timer= juego_guardado[8][0]
-                hora_timer= juego_guardado[8][1]
-                seg_timer= juego_guardado[8][2]
-                seg_actual.after(1000, lambda:timer_reloj())
-                
-        
-                
-        else:
-            hora_label= tk.Label(ventana_a_jugar, text= "",width= 9, font= "Corbel 12", bg="#F4D6CC").place(x=10, y=450)
-            min_label= tk.Label(ventana_a_jugar, text= "",width= 9, font= "Corbel 12 ", bg="#F4D6CC").place(x=95, y=450)
-            seg_label= tk.Label(ventana_a_jugar, text= "",width= 9, font= "Corbel 12 ", bg="#F4D6CC").place(x=180, y=450)
+        hora_actual= tk.Label(ventana_a_jugar, text= "0",width= 9,height= 2,font= "Corbel 12", bg="#F4C796").place(x=10, y=475)
+        min_actual= tk.Label(ventana_a_jugar, text= "0",width= 9,height= 2,font= "Corbel 12", bg="#F4C796").place(x=95, y=475)
+        seg_actual= tk.Label(ventana_a_jugar, text= "0",width= 9,height= 2,font= "Corbel 12", bg="#F4C796")
+        seg_actual.place(x=180, y=475)
+        if reloj_o_time == 1:
+            seg_actual.after(1000, lambda:funcion_time())
+            
+        if reloj_o_time == 3:
+            #print(juego_guardado[8])
+            min_timer= juego_guardado[8][1]
+            hora_timer= juego_guardado[8][0]
+            seg_timer= juego_guardado[8][2]
+            seg_actual.after(1000, lambda:timer_reloj())
+            
+    
+            
+    else:
+        hora_label= tk.Label(ventana_a_jugar, text= "",width= 9, font= "Corbel 12", bg="#F4D6CC").place(x=10, y=450)
+        min_label= tk.Label(ventana_a_jugar, text= "",width= 9, font= "Corbel 12 ", bg="#F4D6CC").place(x=95, y=450)
+        seg_label= tk.Label(ventana_a_jugar, text= "",width= 9, font= "Corbel 12 ", bg="#F4D6CC").place(x=180, y=450)
 
-            hora_actual= tk.Label(ventana_a_jugar, text= "",width= 9,height= 2,font= "Corbel 12", bg="#F4D6CC").place(x=10, y=475)
-            min_actual= tk.Label(ventana_a_jugar, text= " ",width= 9,height= 2,font= "Corbel 12", bg="#F4D6CC").place(x=95, y=475)
-            seg_actual= tk.Label(ventana_a_jugar, text= " ",width= 9,height= 2,font= "Corbel 12", bg="#F4D6CC")
-            seg_actual.place(x=180, y=475)
+        hora_actual= tk.Label(ventana_a_jugar, text= "",width= 9,height= 2,font= "Corbel 12", bg="#F4D6CC").place(x=10, y=475)
+        min_actual= tk.Label(ventana_a_jugar, text= " ",width= 9,height= 2,font= "Corbel 12", bg="#F4D6CC").place(x=95, y=475)
+        seg_actual= tk.Label(ventana_a_jugar, text= " ",width= 9,height= 2,font= "Corbel 12", bg="#F4D6CC")
+        seg_actual.place(x=180, y=475)
 
    
  
@@ -2912,9 +2919,9 @@ global seg_timer
 global flag_cargar_juego
 global ind_escoge_par
 global lista_pila
-min_timer=0
+min_timer=10
 hora_timer=0
-seg_timer=10
+seg_timer=0
 flag_cargar_juego=False
 lista_pila=[]
 ind_escoge_par=1
