@@ -1512,6 +1512,7 @@ def asigna_casilla(cod):
         for i,num in enumerate(matriz_juego[4]):
             if numero == int(matriz_juego[0][4]) or numero == int(matriz_juego[1][4]) or numero == int(matriz_juego[2][4]) or numero == int(matriz_juego[3][4]):
                 f4c4=tk.Button(ventana_a_jugar, text= numero, width= 5, height= 1, bg="#C83E4D",command=lambda:asigna_casilla(24)).grid(row=12, column=10)
+                showMensaje("El numero " + str(numero) + " ya esta en la columna")
                 matriz_0_1[4][4]=0
                 f= False
                 break
@@ -1633,9 +1634,10 @@ def carga_juego(nombre_jugador):
         nombre_jugador=str(nombre_jugador)
         largo = len(nombre_jugador)
         num=escoge_partida()
-        min_timer= min_timer_o
-        hora_timer= hora_timer_o
-        seg_timer= seg_timer_o
+        if reloj_o_time==3:
+            min_timer= min_timer_o
+            hora_timer= hora_timer_o
+            seg_timer= seg_timer_o
         
         
         if len(nombre_jugador) < 1 or len(nombre_jugador) > 20:
