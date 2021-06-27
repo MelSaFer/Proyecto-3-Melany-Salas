@@ -177,6 +177,9 @@ def a_jugar():
     global b5
 
     ind_escoge_par = 1
+    
+    graba_datos2(["nivel_dificultad: "+ str(nivel_dificultad), "Reloj/ timer/ nada: " + str(reloj_o_time), "Posicion de numeros: "+str(lado_num)],\
+                 'futoshiki2021configuración.dat')
 
     flag1= 1
     ventana_principal.state(newstate="withdraw")
@@ -1995,6 +1998,7 @@ def configuracion():
     timer_rb= tk.Radiobutton(ventana_configuracion, text= "Timer",font= "Corbel 12", width= 8,\
                                bg= "#F4D6CC",variable= reloj_o_time , value=3, command= lambda:cambia_op_time(3)).grid(row=7, column=1)
 
+
     lado_num= tk.IntVar()
     lado_num.set(cambia_lado_num(1))
     
@@ -2004,7 +2008,7 @@ def configuracion():
     izquierda_rb= tk.Radiobutton(ventana_configuracion, text= "Izquierta",font= "Corbel 12", width= 8,\
                                   bg= "#F4D6CC",variable= lado_num ,value=2, command= lambda:cambia_lado_num(0)).place(x=250, y=275)
 
-
+    #graba_datos2([nivel_dificultad, reloj_o_time, lado_num], 'futoshiki2021configuración.dat')
     #Botones
     regresar_b= tk.Button(ventana_configuracion, text= "Regresar",font= "Corbel 12", width= 12, bg="#F4CFB1", command= lambda:regresar(ventana_configuracion))
     regresar_b.place(x=250, y=350)
@@ -2567,15 +2571,21 @@ def valida_mayor1(ind_fila, ind_columna):
 
 def asigna_nivel(num):
     global nivel_dificultad
+    global reloj_o_time
+    global lado_num
     if num== 1:
         nivel_dificultad=1
     elif num == 2:
         nivel_dificultad=2
     elif num == 3:
         nivel_dificultad=3
+    #graba_datos2([nivel_dificultad, reloj_o_time, lado_num], 'futoshiki2021configuración.dat')
 
 def cambia_op_time(num):
+    global nivel_dificultad
     global reloj_o_time
+    global lado_num
+    
     if num == 1:
         reloj_o_time= 1
     elif num == 2:
@@ -2583,6 +2593,7 @@ def cambia_op_time(num):
     elif num == 3:
         reloj_o_time= 3
         cambio_valor_cr()
+    #graba_datos2([nivel_dificultad, reloj_o_time, lado_num], 'futoshiki2021configuración.dat')
 
 
 def cambio_valor_cr():
@@ -2660,11 +2671,14 @@ def valor_cr(horas, minutos, segundos):
 
     
 def cambia_lado_num(num):
+    global nivel_dificultad
+    global reloj_o_time
     global lado_num
     if num== 1:
         lado_num=1
     else:
         lado_num=0
+    #graba_datos2([nivel_dificultad, reloj_o_time, lado_num], 'futoshiki2021configuración.dat')
 
 #Funcion para saber si se gana o no
 def gane():
@@ -2892,14 +2906,11 @@ global lado_num
 global matriz_juego
 global arc_jugadas
 global reloj_o_time
-
 global min_timer
 global hora_timer
 global seg_timer
-
 global flag_cargar_juego
 global ind_escoge_par
-
 global lista_pila
 min_timer=0
 hora_timer=0
@@ -2916,7 +2927,8 @@ numero=0
 crea_matriz()
 reloj_o_time=1
 
-
+graba_datos2(["nivel_dificultad: "+str(nivel_dificultad), "Reloj/timer/nada: " + str(reloj_o_time), "Posicion de numeros: "+str(lado_num)],\
+                 'futoshiki2021configuración.dat')
 
 '''
 Ventana principal
@@ -2950,5 +2962,9 @@ ayuda_b= tk.Button(ventana_principal, text= "Acerca de",font= "Corbel 12", width
 ayuda_b.grid(row=11, column=3)
 
 #ventana_principal= tk.toplevel()
+##lee_datos('futoshiki2021top10.dat')
+##lee_datos('futoshiki2021configuración.dat')
+##lee_datos('futoshiki2021partidas.dat')
+##lee_datos('futoshiki2021juegoactual.dat')
 
 ventana_principal.mainloop()
