@@ -184,7 +184,7 @@ def a_jugar():
     ventana_a_jugar.geometry("600x600")
     ventana_a_jugar.title("FUTOSHIKI- A jugar")
     ventana_a_jugar.config(bg="#F4D6CC")
-    ventana_a_jugar.iconbitmap("joystick_game_3819.ico")
+    #ventana_a_jugar.iconbitmap("joystick_game_3819.ico")
     numero= tk.IntVar
 
     #Titulo
@@ -1557,7 +1557,7 @@ def termina_juego():
     ventana_tj.geometry("350x100")
     ventana_tj.title("FUTOSHIKI- Terminar el juego")
     ventana_tj.config(bg="#F4D6CC")
-    ventana_tj.iconbitmap("joystick_game_3819.ico")
+    #ventana_tj.iconbitmap("joystick_game_3819.ico")
     
     nombre= tk.Label(ventana_tj, text= "¿Esta seguro de que desea terminar el juego?", font= "Corbel 12 bold ", bg="#F4CFB1")
     nombre.place(x=5, y=5)
@@ -1583,7 +1583,7 @@ def borrar_juego(nombre_jugador):
     ventana_bj.geometry("350x100")
     ventana_bj.title("FUTOSHIKI- Terminar el juego")
     ventana_bj.config(bg="#F4D6CC")
-    ventana_bj.iconbitmap("joystick_game_3819.ico")
+    #ventana_bj.iconbitmap("joystick_game_3819.ico")
     
     nombre= tk.Label(ventana_bj, text= "¿Esta seguro de que desa borrar el juego?", font= "Corbel 12 bold ", bg="#F4CFB1")
     nombre.place(x=5, y=5)
@@ -1940,7 +1940,7 @@ def configuracion():
     ventana_configuracion.geometry("450x400")
     ventana_configuracion.title("FUTOSHIKI- A jugar")
     ventana_configuracion.config(bg="#F4D6CC")
-    ventana_configuracion.iconbitmap("joystick_game_3819.ico")
+    #ventana_configuracion.iconbitmap("joystick_game_3819.ico")
 
     name_label= tk.Label(ventana_configuracion, text= "FUTOSHIKI", font= "Corbel 22 bold", height= 1, width= 15, bg= "#C83E4D")
     name_label.grid(row=0, column=1)
@@ -2058,7 +2058,7 @@ def fin_time():
     ventana_q=tk.Tk()
     ventana_q.geometry("400x200")
     ventana_q.title("FUTOSHIKI- Tiempo del cronometro")
-    ventana_q.iconbitmap("joystick_game_3819.ico")
+    #entana_q.iconbitmap("joystick_game_3819.ico")
     
     ventana_q.config(bg="#F4D6CC")
 
@@ -2591,7 +2591,7 @@ def cambio_valor_cr():
     ventana_cr.geometry("400x200")
     ventana_cr.title("FUTOSHIKI- Tiempo del cronometro")
     ventana_cr.config(bg="#F4D6CC")
-    ventana_cr.iconbitmap("joystick_game_3819.ico")
+    #ventana_cr.iconbitmap("joystick_game_3819.ico")
 
     nombre= tk.Label(ventana_cr, text= "Tiempo del cronometro", font= "Corbel 12 bold ", bg="#F4CFB1")
     nombre.place(x=110, y=5)
@@ -2709,7 +2709,7 @@ def mensaje_gane():
     ventana_gane.geometry("400x200")
     ventana_gane.title("FUTOSHIKI- Felicidades")
     ventana_gane.config(bg="#F4D6CC")
-    ventana_gane.iconbitmap("joystick_game_3819.ico")
+    #ventana_gane.iconbitmap("joystick_game_3819.ico")
     graba_top10()
 
     nombre= tk.Label(ventana_gane, text= "Ha completado la partida exitosamente", font= "Corbel 14 bold ", bg="#F4CFB1")
@@ -2781,7 +2781,7 @@ def acerca_de():
     ventana_configuracion.geometry("300x300")
     ventana_configuracion.title("FUTOSHIKI- Acerca de")
     ventana_configuracion.config(bg="#F4D6CC")
-    ventana_configuracion.iconbitmap("joystick_game_3819.ico")
+    #ventana_configuracion.iconbitmap("joystick_game_3819.ico")
     
 
     name_label= tk.Label(ventana_configuracion, text= "FUTOSHIKI", font= "Corbel 22 bold", height= 1, width= 15, bg= "#C83E4D")
@@ -2832,7 +2832,7 @@ def ventana_top10():
     ventana_top.geometry("510x400")
     ventana_top.title("Top 10")
     ventana_top.config(bg="#F4D6CC")
-    ventana_top.iconbitmap("joystick_game_3819.ico")
+    #ventana_top.iconbitmap("joystick_game_3819.ico")
 
     top10= asigna_datos("futoshiki2021top10.dat")
 
@@ -2926,7 +2926,7 @@ ventana_principal= tk.Tk()
 ventana_principal.geometry("500x300")
 ventana_principal.title("Ventana principal")
 ventana_principal.config(bg="#F4D6CC")
-ventana_principal.iconbitmap("joystick_game_3819.ico")
+#ventana_principal.iconbitmap("joystick_game_3819.ico")
 
 #Labels
 name_label= tk.Label(ventana_principal, text= "FUTOSHIKI", font= "Corbel 22 bold", height= 1, width= 15, bg= "#C83E4D")
