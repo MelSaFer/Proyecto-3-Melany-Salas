@@ -102,13 +102,13 @@ def graba_top10():
         graba_datos2(top10,"futoshiki2021top10.dat")
         
     elif nivel_dificultad == 2:
-        if top10[2] != []:
+        if top10[1] != []:
             for i, jugador in enumerate(top10[1]):
                 if jugador[1] > datos[1]:
 
                     top10[1].insert(i, datos)
                     try:
-                        top10[1]=top10[0][:10]
+                        top10[1]=top10[1][:10]
                     except:
                         pass
                     graba_datos2(top10,"futoshiki2021top10.dat")
@@ -116,7 +116,7 @@ def graba_top10():
         if datos not in top10[1]:
             top10[1].append(datos)
         try:
-            top10[1]=top10[0][:10]
+            top10[1]=top10[1][:10]
         except:
             pass
         graba_datos2(top10,"futoshiki2021top10.dat")
@@ -2140,6 +2140,13 @@ def carga_partida():
     global seg_timer
     global matriz_0_1
     global nombre_j
+    global nombre_jugador
+
+    global b1
+    global b2
+    global b3
+    global b4
+    global b5
 
     
     
@@ -2155,6 +2162,7 @@ def carga_partida():
     reloj_o_time= juego_guardado[3]
     lado_num= juego_guardado[4]
     hora_inicio=juego_guardado[5]
+    nombre_jugador= juego_guardado[7]
     nombre_j= juego_guardado[7]
 
     a_jugar()
@@ -2182,26 +2190,36 @@ def carga_partida():
         
 
     if lado_num == 0: #Derecha
-        b1= tk.Button(ventana_a_jugar, text= "1", width= 5, bg="#F4CFB1", command=lambda:asigna_value(1)).grid(row=4, column=1)
+        b1= tk.Button(ventana_a_jugar, text= "1", width= 5, bg="#F4CFB1", command=lambda:asigna_value(1))
+        b1.grid(row=4, column=1)
 
-        b2= tk.Button(ventana_a_jugar, text= "2", width= 5, bg="#F4CFB1", command=lambda:asigna_value(2)).grid(row=6, column=1)
+        b2= tk.Button(ventana_a_jugar, text= "2", width= 5, bg="#F4CFB1", command=lambda:asigna_value(2))
+        b2.grid(row=6, column=1)
 
-        b3= tk.Button(ventana_a_jugar, text= "3", width= 5, bg="#F4CFB1", command=lambda:asigna_value(3)).grid(row=8, column=1)
+        b3= tk.Button(ventana_a_jugar, text= "3", width= 5, bg="#F4CFB1", command=lambda:asigna_value(3))
+        b3.grid(row=8, column=1)
 
-        b4= tk.Button(ventana_a_jugar, text= "4", width= 5, bg="#F4CFB1", command=lambda:asigna_value(4)).grid(row=10, column=1)
+        b4= tk.Button(ventana_a_jugar, text= "4", width= 5, bg="#F4CFB1", command=lambda:asigna_value(4))
+        b4.grid(row=10, column=1)
 
-        b5= tk.Button(ventana_a_jugar, text= "5", width= 5, bg="#F4CFB1", command=lambda:asigna_value(5)).grid(row=12, column=1)
+        b5= tk.Button(ventana_a_jugar, text= "5", width= 5, bg="#F4CFB1", command=lambda:asigna_value(5))
+        b5.grid(row=12, column=1)
         
     else:
-        b1= tk.Button(ventana_a_jugar, text= "1", width= 5, bg="#F4CFB1",  command=lambda:asigna_value(1)).grid(row=4, column=20)
+        b1= tk.Button(ventana_a_jugar, text= "1", width= 5, bg="#F4CFB1",  command=lambda:asigna_value(1))
+        b1.grid(row=4, column=20)
 
-        b2= tk.Button(ventana_a_jugar, text= "2", width= 5, bg="#F4CFB1", command=lambda:asigna_value(2)).grid(row=6, column=20)
+        b2= tk.Button(ventana_a_jugar, text= "2", width= 5, bg="#F4CFB1", command=lambda:asigna_value(2))
+        b2.grid(row=6, column=20)
 
-        b3= tk.Button(ventana_a_jugar, text= "3", width= 5, bg="#F4CFB1", command=lambda:asigna_value(3)).grid(row=8, column=20)
+        b3= tk.Button(ventana_a_jugar, text= "3", width= 5, bg="#F4CFB1", command=lambda:asigna_value(3))
+        b3.grid(row=8, column=20)
 
-        b4= tk.Button(ventana_a_jugar, text= "4", width= 5, bg="#F4CFB1", command=lambda:asigna_value(4)).grid(row=10, column=20)
+        b4= tk.Button(ventana_a_jugar, text= "4", width= 5, bg="#F4CFB1", command=lambda:asigna_value(4))
+        b4.grid(row=10, column=20)
 
-        b5= tk.Button(ventana_a_jugar, text= "5", width= 5, bg="#F4CFB1", command=lambda:asigna_value(5)).grid(row=12, column=20)
+        b5= tk.Button(ventana_a_jugar, text= "5", width= 5, bg="#F4CFB1", command=lambda:asigna_value(5))
+        b5.grid(row=12, column=20)
     
     if matriz_juego[0][0] == 0:   
         f0c0=tk.Button(ventana_a_jugar, text= "", width= 5, height= 1, bg="#F4B860", command=lambda:asigna_casilla(0)).grid(row=4, column=2)
@@ -2903,7 +2921,7 @@ def ventana_top10():
         r+=1
     
     
-    
+
 #-----------------------------Programa-Principal----------------------
 
 #Golabls
@@ -2922,6 +2940,11 @@ global lista_pila
 min_timer=10
 hora_timer=0
 seg_timer=0
+
+min_timer_o=10
+hora_timer_o=0
+seg_timer_o=0
+
 flag_cargar_juego=False
 lista_pila=[]
 ind_escoge_par=1
