@@ -2664,6 +2664,15 @@ def valor_cr(horas, minutos, segundos):
     
     global ventana_cr
 
+    try:
+        int(horas)
+        int(minutos)
+        int(segundos)
+    except:
+        showMensaje("Los valores no son validos")
+        return
+        
+
     if int(horas) < 0 or int(horas) > 2:
         showMensaje("El valor en las horas no es valido")
         return
