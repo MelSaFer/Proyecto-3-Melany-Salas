@@ -2064,10 +2064,11 @@ def timer_reloj():
     while seg_timer != 0 or min_timer !=0 or hora_timer != 0:
         if seg_timer == 0 and min_timer != 0:
             min_timer-=1
-            seg_timer+=60
+            seg_timer= 60
         elif min_timer == 0 and hora_timer !=0:
             hora_timer-=1
-            min_timer+=59
+            min_timer= 59
+            seg_timer= 60
         seg_timer-=1
         break
     hora_actual= tk.Label(ventana_a_jugar, text= hora_timer,width= 9,height= 2,font= "Corbel 12", bg="#F4C796").place(x=10, y=475)
