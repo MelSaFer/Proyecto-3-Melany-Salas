@@ -170,6 +170,10 @@ def a_jugar():
     global seg_timer
     global ind_escoge_par
 
+    global cronometro_h
+    global cronometro_m
+    global cronometro_s
+
     global b1
     global b2
     global b3
@@ -1633,6 +1637,10 @@ def carga_juego(nombre_jugador):
     global seg_timer_o
     global hora_timer_o
 
+    global cronometro_h
+    global cronometro_m
+    global cronometro_s
+
     lista_pila= []
     arc_jugadas=asigna_datos("futoshiki2021partidas.dat")
 
@@ -1644,6 +1652,10 @@ def carga_juego(nombre_jugador):
             min_timer= min_timer_o
             hora_timer= hora_timer_o
             seg_timer= seg_timer_o
+        elif reloj_o_time == 1 and ind_escoge_par==1:
+            cronometro_h=0
+            cronometro_m=0
+            cronometro_s=0
         
         
         if len(nombre_jugador) < 1 or len(nombre_jugador) > 20:
@@ -2020,18 +2032,26 @@ def configuracion():
 
 def funcion_time():
     global reloj_o_time
-    
-    global hora_actual
-    global min_actual
-    global seg_actual
     global hora_inicio
+
+    global cronometro_h
+    global cronometro_m
+    global cronometro_s
+
+    while gane() == False:
+        if cronometro_s >= 59:
+            cronometro_m+=1
+            cronometro_s=-1
+        elif cronometro_m >= 59:
+            cronometro_h+=1
+            cronometro_m=0
+            cronometro_s=-1
+        cronometro_s+=1
+        break
     
-    hora= time.strftime("%H")
-    minutos= time.strftime("%M")
-    seg= time.strftime("%S")
-    hora_actual= tk.Label(ventana_a_jugar, text= hora,width= 9,height= 2,font= "Corbel 12", bg="#F4C796").place(x=10, y=475)
-    min_actual= tk.Label(ventana_a_jugar, text= minutos,width= 9,height= 2,font= "Corbel 12", bg="#F4C796").place(x=95, y=475)
-    seg_actual= tk.Label(ventana_a_jugar, text= seg,width= 9,height= 2,font= "Corbel 12", bg="#F4C796")
+    hora_actual= tk.Label(ventana_a_jugar, text= cronometro_h,width= 9,height= 2,font= "Corbel 12", bg="#F4C796").place(x=10, y=475)
+    min_actual= tk.Label(ventana_a_jugar, text= cronometro_m,width= 9,height= 2,font= "Corbel 12", bg="#F4C796").place(x=95, y=475)
+    seg_actual= tk.Label(ventana_a_jugar, text= cronometro_s,width= 9,height= 2,font= "Corbel 12", bg="#F4C796")
     seg_actual.place(x=180, y=475)
     seg_actual.after(1000, lambda:funcion_time())
 
@@ -2117,10 +2137,15 @@ def guarda_juego():
     global flag_cargar_juego
     global matriz_0_1
     global nombre_j
+    global cronometro_h
+    global cronometro_m
+    global cronometro_s
 
     juego_guardado= [matriz_juego, matriz_0_1 ,nivel_dificultad, reloj_o_time, lado_num, hora_inicio, partida, nombre_j]
     if reloj_o_time==3:
         juego_guardado.append([hora_timer, min_timer,seg_timer])
+    elif reloj_o_time==1:
+        juego_guardado.append([cronometro_h,cronometro_m,cronometro_s])
     
     arc= open("futoshiki2021juegoactual.dat" , "wb")
     pickle.dump(juego_guardado, arc)
@@ -2141,6 +2166,9 @@ def carga_partida():
     global matriz_0_1
     global nombre_j
     global nombre_jugador
+    global cronometro_h
+    global cronometro_m
+    global cronometro_s
 
     global b1
     global b2
@@ -2454,6 +2482,9 @@ def carga_partida():
         seg_actual= tk.Label(ventana_a_jugar, text= "0",width= 9,height= 2,font= "Corbel 12", bg="#F4C796")
         seg_actual.place(x=180, y=475)
         if reloj_o_time == 1:
+            cronometro_h= juego_guardado[8][0]
+            cronometro_m= juego_guardado[8][1]
+            cronometro_s= juego_guardado[8][2]
             seg_actual.after(1000, lambda:funcion_time())
             
         if reloj_o_time == 3:
@@ -2722,7 +2753,7 @@ def gane():
     for fila in matriz_0_1:
         for columna in fila:
             if columna == 0:
-                return
+                return False
     hora_fin= obtener_hora()
     diferencia_t= diferencia_horas()
     
