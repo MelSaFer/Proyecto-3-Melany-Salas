@@ -447,6 +447,14 @@ def asigna_casilla(cod):
 
     global matriz_0_1
 
+    global partida
+    
+    try:
+        print(partida)
+    except:
+        showMensaje("No ha iniciado el juego")
+        return
+
     if numero != 1 and numero != 2 and numero != 3 and numero != 4 and numero != 5:
         showMensaje("No ha seleccionado un numero")
         return
